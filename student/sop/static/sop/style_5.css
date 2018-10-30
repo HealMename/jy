@@ -1,0 +1,45 @@
+body{
+	padding: 0px;
+	margin: 0px;
+	height: 700px;
+	color: white;
+	
+}
+
+.d1{
+	background-image: url(imgs/B.jpg);
+	background-size: 100%;
+    height: 100%;
+	position: relative;
+	
+    
+}
+
+.d2{
+	width: 326px;
+	height: 260px;
+	box-shadow: rgba(0,0,0,0.4) 0px 0px 20px 1px;
+	position: absolute;
+	background-color: rgba(0,0,0,0.4);
+	left: 200px;
+	top: 400px;
+	text-align: center;
+	font-family: '方正喵呜体';
+}
+
+a{
+	text-decoration: none;
+	color: white;
+	font-family: '方正喵呜体';
+	
+}
+.d4{
+	position: relative;
+	background-image: url(imgs/E.jpg);
+	width: 843px;
+	height: 293px;
+	top: -598px;
+	margin: 0px;
+	padding: 0px;
+	left: -150px;
+}

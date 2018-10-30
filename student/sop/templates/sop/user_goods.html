@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品管理</title>
+</head>
+<body>
+<a href="{% url 'sop:add_goods' user_id %}">发布商品</a>
+<a href="{% url 'sop:ll' user_id %}">查看已经发布的商品</a>
+<a href="{% url 'sop:goods_z' user_id %}">查看指定商品</a>
+<a href="{% url 'sop:update_goods' user_id %}">修改商品信息</a>
+<a href="{% url 'sop:all_update' user_id %}">查看商品修改记录</a>
+<a href="{% url 'sop:log' user_id %}">返回</a>
+</body>
+</html>

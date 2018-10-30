@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+{% if student_list %}
+    {% for i in student_list %}
+    <form action="{% url 'student' i.id %}" method="post">
+    {% endfor %}
+    {% csrf_token %}
+        姓名 <input type="text" name="name">
+        年龄 <input type="text" name="age">
+        密码 <input type="text" name="password">
+        <input type="submit" value="提交">
+    </form>
+{% else%}
+    <p>不存在</p>
+<a href="{% url 'index' %}">返回</a>
+{% endif %}
+</body>
+</html>

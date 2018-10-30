@@ -1,0 +1,87 @@
+.all_div{
+	background-image: url(imgs/C.jpg);
+	background-size: 100%;
+	height: 740px;
+	position: relative;
+	top: -20px;
+	
+}
+.id{
+	background-color: rgba(0,0,0,0);
+	border: 0 rgba(0,0,0,0);
+	
+}
+body{
+	padding: 0px;
+	margin: 0px;
+	
+	
+}
+.form_1{
+	height: 115px;
+	position: relative;
+	top: 100px;
+}
+ul{
+	
+	height: 92px;
+}
+li{
+	list-style-type: none;
+	font-family: '方正喵呜体';
+}
+.buy{
+	position: relative;
+	left: 400px;
+	top: -150px;
+	background-color: rgba(0,0,0,0.1);
+	box-shadow: rgba(0,0,0,0.1) 0px 0px 1px 1px;
+	border: 0px;
+	
+}
+.form_2{
+	position: relative;
+	left: 400px;
+	top: 75px;
+}
+
+.show_goods{
+	width: 1000px;
+	
+}
+.stock{
+	background-color: rgba(0,0,0,0.1);
+	border: 0px;
+}
+
+.goods_id{
+	display: none;
+}
+
+.show_menu{
+	position: fixed;
+	left: 1000px;
+	top: 100px;
+	width: 326px;
+	height: 260px;
+	box-shadow: rgba(0,0,0,0.4) 0px 0px 20px 1px; 
+	text-align: center;
+	font-size: 20px;
+	background-color: rgba(0,0,0,0.3);
+}
+a{
+	text-decoration: none;
+	color: #000000;
+	font-family: '方正喵呜体';
+}
+.succeed{
+	
+}
+.price{
+	position: relative;
+	left: 700px;
+	top: -150px;
+	font-family: '方正喵呜体';
+	font-size: 50px;
+	display: inline-block;
+}

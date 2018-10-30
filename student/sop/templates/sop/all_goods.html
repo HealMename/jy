@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>浏览商品</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'sop/style_2.css' %}" />
+</head>
+<body>
+<div class="d2">
+	<div class="d1">
+			
+			<p><a href="{% url 'sop:home' %}" class="a1">返回</a> </p>
+			<p><a href="{% url 'sop:zc' %}" class="a1">注册</a> </p>
+			<p><a href="{% url 'sop:login' %}" class="a1">登录</a> </p>
+		</div>
+		<form action="{% url 'sop:goods_cl' page %}" method="post">
+		{% csrf_token %}
+		<p>分类查询</p>
+		<select name="goods_class">
+			<option value="ALL">ALL</option>
+			<option value="LOL">LOL</option>
+			<option value="DNF">DNF</option>
+			<option value="M3G">M3G</option>
+		</select>
+		<input type="submit" value="search">
+		</form>
+	   
+	{% if all_goods %}
+	    {% for goods_all in all_goods %}
+			<ul>
+				<li><a href="{% url 'sop:login' %}" class="a2">购买</a> </li>
+				<li>name：{{goods_all.goods_name}}</a> </li>
+				<li>id：{{goods_all.goods_id}}</a> </li>
+				<li>class：{{goods_all.goods_class}}</li>
+				<li>stock：{{goods_all.goods_stock}}</li>
+				<li>addtime：{{goods_all.goods_time}}</li>
+			</ul>
+	    {% endfor %}
+	{% endif %}
+	
+	{% if goods_class %}
+	    {% for goods_all in goods_class %}
+	        <ul>
+	        	<li><a href="{% url 'sop:login' %}" class="a2">购买</a> </li>
+	        	<li>name：{{goods_all.goods_name}}</a> </li>
+	        	<li>id：{{goods_all.goods_id}}</a> </li>
+	        	<li>class：{{goods_all.goods_class}}</li>
+	        	<li>stock：{{goods_all.goods_stock}}</li>
+	        	<li>addtime：{{goods_all.goods_time}}</li>
+	        </ul>
+	    {% endfor %}
+	
+	{% endif %}
+	
+</div>
+	
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加商品</title>
+</head>
+<body>
+{% if cs %}
+    <p>请重试</p>
+{% else %}
+{% endif %}
+<h1>添加商品</h1>
+<form action="{% url 'sop:add_goods_add' user_id %}" method="post">
+    {% csrf_token %}
+    商品名称<input type="text" name="name"> <br>
+    商品单价<input type="text" name="price"> <br>
+    商品分类
+    <select name="goods_class">
+        <option value="LOL">LOL</option>
+        <option value="DNF">DNF</option>
+        <option value="M3G">M3G</option>
+    </select> <br>
+
+    库存数量<input type="text" name="stock"> <br>
+    <input type="submit" value="发布">
+    <a href="{% url 'sop:log' user_id %}">返回</a>
+
+</form>
+
+</body>
+</html>

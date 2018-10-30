@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>简易版交易系统</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'sop/style.css' %}" />
+</head>
+<body>
+	
+	
+	<div class="d2">
+		<div class="d1">
+		
+		<p class="p1"><a href="{% url 'sop:all_goods'%}">商品</a></p>
+		<p class="p1"><a href="{% url 'sop:zc' %}">注册</a></p>
+		<p class="p1"><a href="{% url 'sop:login' %}">登录</a></p>
+		<p class="p2">Don't worry about the ambiguous future</p>
+		<p class="p2"> just work on the clear present</p>
+		</div>
+		<div class="side" id = "lunbo">
+		    <ul>
+		        <li><img src="http://www.lachapelle.cn/i/home/show/20141016/sub1.jpg">
+		            
+		        </li>
+		        <li><img src="http://www.lachapelle.cn/i/home/show/20141016/sub2.jpg">
+		            
+		        </li>
+		    <li><img src="http://www.lachapelle.cn/i/home/show/20141016/sub3.jpg">
+		       
+		    </li>
+		        
+			</ul> 
+		</div>
+	</div>
+	
+
+</body>
+<script>
+    var li=document.getElementById('lunbo').getElementsByTagName("li");
+    var num=0;
+    var len=li.length;
+
+   function f1(){
+        li[num].style.opacity = '0';
+
+        num = ++ num == len ? 0 : num;
+        li[num].style.opacity = '1';
+
+    }
+
+    var c = setInterval(function () {f1()},2000);
+
+    var d1 = document.getElementById('d1');
+    var d2 = document.getElementById('d2');
+    var d3 = document.getElementById('lunbo');
+    d1.onclick = function () {f1()};
+    document.getElementById('p1').onmouseover = function () {f1()};
+    d2.onclick = function () {f1()};
+
+    d3.onmouseout = function () {
+        d1.style.display = 'none';
+        d2.style.display = 'none';
+        c  = setInterval(function () {f1()},2000);
+    };
+
+    d3.onmouseover  =   function (){
+        d1.style.display = 'block';
+        d2.style.display = 'block';
+        d1.style.opacity = '0.5';
+        d2.style.opacity = '0.5';
+        clearInterval(c);
+    };
+</script>
+</html>

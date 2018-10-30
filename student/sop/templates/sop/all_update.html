@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品修改记录</title>
+</head>
+<body>
+<h1>商品修改记录查询</h1>
+<h1><a href="{% url 'sop:log' user.id %}">返回</a></h1>
+{% if goods_update %}
+<p>=================================</p>
+    {% for goods in goods_update %}
+        <p>商品编号： {{goods.goods_id}}</p>
+        <p>修改时间： {{goods.goods_update}}</p>
+        <p>修改描述： {{goods.goods_text}}</p>
+        <p>修改人id： {{goods.goods_user_id}}</p>
+        <p>=================================</p>
+    {% endfor %}
+{% endif %}
+
+</body>
+</html>

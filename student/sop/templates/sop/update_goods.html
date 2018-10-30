@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改信息</title>
+</head>
+<body>
+	<h1><a href="{% url 'sop:log' user.id %}">返回</a></h1>
+{% if goods %}
+<form action="{% url 'sop:update_goo' user.id %}" method="post">
+    {% csrf_token %}
+<h1>选择要修改的商品</h1>
+    <select name="update_goods">
+        {% for i in goods %}
+        <option value="{{i.goods_id}}">{{i.goods_name}}</option>
+        {%endfor%}
+    </select>
+    <input type="submit" value="选择">
+    
+</form>
+{%endif%}
+</body>
+</html>
+

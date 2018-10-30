@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>青云学院学生教务管理系统</title>
+</head>
+<body>
+{% if home_list %}
+    {% for home in home_list%}
+    <a href="zc">{{home.vi_1}}</a>
+    {% endfor %}
+{% else %}
+    <p>请刷新</p>
+{% endif %}
+</body>
+</html>

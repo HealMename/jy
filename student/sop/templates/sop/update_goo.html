@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改商品信息</title>
+</head>
+<body>
+
+{% if user %}
+
+    {% if goods %}
+    <h1>请输入新的商品信息</h1>
+        <form action="{% url 'sop:update' user.id %}" method="post">
+            {% csrf_token %}
+            商品名称： <input type="text" name="name"> <br>
+            商品单价： <input type="text" name="price"> <br>
+            商品编号： <input type="text" name="goods_id" value="{{goods.goods_id}}" readonly="readonly"> <br>
+            商品分类： <select name="goods_class" >
+                        <option value="LOL">LOL</option>
+                        <option value="DNF">DNF</option>
+                        <option value="M3G">M3G</option>
+                     </select> <br>
+            商品库存： <input type="text" name="stock">
+            <input type="submit" value="确认修改">
+            <a href="{% url 'sop:log' user.id %}">返回</a>
+        </form>
+    {% endif %}
+{% endif %}
+{% if goodss %}
+    <h1>修改成功</h1>
+    <h1><a href="{% url 'sop:log' user.id %}">返回</a></h1>
+{% endif %}
+{% if qcs %}
+    <h1>请重试</h1>
+{% endif %}
+</body>
+</html>

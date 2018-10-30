@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>已发布商品</title>
+</head>
+<body>
+<h1>已发布商品</h1>
+<h1><a href="{% url 'sop:log' user.id %}">返回</a></h1>
+<p>=================================</p>
+{%for i in user_goods %}
+    <p>商品名称: {{i.goods_name}}</p>
+    <p>商品编号: {{i.goods_id}}</p>
+    <p>商品单价: {{i.goods_price}}</p>
+    <p>商品分类: {{i.goods_class}}</p>
+    <p>库存数量: {{i.goods_stock}}</p>
+    <p>发布时间: {{i.goods_time}}</p>
+    <p>修改时间: {{i.goods_update}}</p>
+    <p>发布人id: {{i.goods_user_id}}</p>
+    <p>上架信息： {{i.goods_state}}</p>
+
+
+    <a href="{% url 'sop:state' user.id i.goods_id %}">上架</a>
+    <a href="{% url 'sop:cancel' user.id i.goods_id %}">下架</a>
+    <p>=================================</p>
+{% endfor %}
+
+</body>
+</html>

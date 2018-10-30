@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品详情</title>
+</head>
+<body>
+{% if goods_ex %} <p>没有该商品</p>{%endif%}
+<form action="{% url 'sop:goods_id' user_id %}" method="post">
+    {% csrf_token %}
+    商品编号： <input type="text" name="goods_idd">
+    <input type="submit" value="查询">
+    <a href="{% url 'sop:log' user_id %}">返回</a>
+</form>
+{% if goods_id %}
+    <p>=================================</p>
+    <p>商品名称: {{goods_id.goods_name}}</p>
+    <p>商品编号: {{goods_id.goods_id}}</p>
+    <p>商品单价: {{goods_id.goods_price}}</p>
+    <p>商品分类: {{goods_id.goods_class}}</p>
+    <p>库存数量: {{goods_id.goods_stock}}</p>
+    <p>发布时间: {{goods_id.goods_time}}</p>
+    <p>修改时间: {{goods_id.goods_update}}</p>
+    <p>发布人id: {{goods_id.goods_user_id}}</p>
+    <p>=================================</p>
+{% endif %}
+{% if goods_ex %}
+    <p>已删除</p>
+{% endif %}
+</body>
+</html>

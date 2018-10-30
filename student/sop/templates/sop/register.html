@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎注册</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'sop/style_3.css' %}" />
+</head>
+<body>
+
+<div class="d3">
+	<div class="d1">		
+			<form action="{% url 'sop:register' code %}" method="post">
+			{% csrf_token %}
+			昵称：<input type="text" name="name" class="i1"><br>
+			账号：<input type="text" name="account" class="i2"><br>
+			密码：<input type="text" name="passwords" class="i3"><br>
+			问题：<input type="text" name="question" class="i7"><br>
+			答案：<input type="text" name="answer" class="i6"><br>
+			验证：<input type="text" name="code" class="i8"> 
+			<div class="d2"><p>&nbsp;&nbsp;&nbsp;{{code}}</p></div>
+			<input type="submit" value="注册" class="i5"> 
+			<input type="button" value="返回" onClick="location.href='{% url 'sop:home' %}'" class="i4"/>  
+			</form>
+		{% if nots %}
+			<p>{{nots}}</p>
+		{% endif %}
+		</div>
+		
+</div>	
+</body>
+	
+
+			
+</html>

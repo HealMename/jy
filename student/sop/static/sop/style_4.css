@@ -1,0 +1,75 @@
+
+.d1{
+	width: 326px;
+	height: 260px;
+	box-shadow: rgba(0,0,0,0.4) 0px 0px 20px 1px;
+	position: absolute;
+	left: 200px;
+	top: 350px;
+	background-color: rgba(0,0,0,0.4);
+}
+input{
+	position: relative;
+	
+}
+form{
+	margin-left: 20px;
+	margin-top: 20px;
+	font-family: '方正喵呜体';
+}
+
+.i1{
+	left: 30px;
+	opacity: 0.4;
+}
+.i2{
+	left: 30px;
+	opacity: 0.4;
+}
+.i3{
+	left: 30px;
+	opacity: 0.4;
+}
+.p1{
+	width: 100px;
+	height: 20px;
+	box-shadow: rgba(0,0,0,0.4) 0px 0px 10px 1px;
+	position: relative;
+	left: 100px;
+	margin-bottom: 20px;
+}
+
+.i4{
+	display: block;
+	text-decoration: none;
+	position: relative;
+	left: 200px;
+	float: left;
+	color: white;
+	background-color: rgba(0,0,0,0);
+	border: rgba(0,0,0,0) 0px;
+	font-family: '方正喵呜体';
+	}
+.i5{
+	background-color: rgba(0,0,0,0);
+	border: rgba(0,0,0,0) 0px;
+	color: white;font-family: '方正喵呜体';
+}
+
+body{
+	padding: 0px;
+	margin: 0px;
+	height: 100px;
+	color: white;
+	
+}
+
+.d3{
+	background-image: url(imgs/11.jpg);
+	background-size: 100%;
+    height: 927px;
+	position: relative;
+	top: -170px;
+	
+    
+}

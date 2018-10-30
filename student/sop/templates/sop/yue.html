@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>充值</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'sop/style_7.css' %}" />
+</head>
+<body>
+<h1>欢迎充值</h1>
+<form action="{% url 'sop:toup' user_id %}" method="post">
+    {% csrf_token %}
+    输入要充值的金额 <input type="text" name="rmb">
+    <input type="submit" value="充值"> <a href="{% url 'sop:log' user_id %}">返回</a>
+</form>
+<div class="d1">
+</div>
+</body>
+</html>

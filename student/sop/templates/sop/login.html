@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎登录</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'sop/style_4.css' %}" />
+</head>
+<body>
+	<div class="d3">		
+		<div class="d1">
+			<form action="{% url 'sop:lo' code %}" method="post">
+			{% csrf_token %}
+			账号:  <input type="text" name="account" class="i1"> <br>
+			密码:  <input type="text" name="password" class="i2"> <br>
+			验证:  <input type="text" name="code" class="i3"> <p class="p1">{{code}}</p><br>
+			<input type="submit" value="login" class="i5"> 
+			<input type="button" value="return" onClick="location.href='{% url 'sop:home' %}'" class="i4"/>  
+		</form>
+			{% if not_account %}
+				<p>{{not_account}}</p>
+			{% endif %}
+			{% if not_code %}
+				<p>{{not_code}}</p>
+			{% endif %}
+		</div>
+	</div>
+</body>
+</html>

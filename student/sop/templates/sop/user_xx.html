@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息</title>
+</head>
+<body>
+{% if user_xx %}
+    <p>用户昵称:  {{user_xx.user_name}}</p>
+    <p>用户账号:  {{user_xx.user_account}}</p>
+    <p>密保问题:  {{user_xx.user_question}}</p>
+    <p>用户余额:  {{user_xx.user_RMB}}</p>
+    <p>注册时间:  {{user_xx.user_time}}</p>
+    <a href="{% url 'sop:log' user_xx.id %}">返回</a>
+{% else %}
+    <p>暂无信息</p>
+{% endif %}
+</body>
+</html>
