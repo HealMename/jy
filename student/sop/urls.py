@@ -44,6 +44,7 @@ urlpatterns = [
     path('<user_id>/homes/', views.homes, name='homes'),
     path('<user_id>/<pages>/record_pages/', views.record_pages, name='record_pages'),
     path('<user_id>/<pages>/record_next/', views.record_next, name='record_next'),
+    path('<user_id>/upload/', views.upload, name='upload'),
 
 
 

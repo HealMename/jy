@@ -5,6 +5,31 @@ import math
 import random
 from django.db.models import F
 import hashlib
+import os
+from django.conf import settings
+from django.http import HttpResponseRedirect
+
+
+def handle(user_id, user_head, ext):
+    user = Users.objects.get(pk=user_id)
+    file_name = user.user_account + ext
+    file_path = os.path.join(settings.BASE_DIR, 'sop/static/sop/imgs', file_name)
+    print(file_path)
+    with open(file_path, 'wb+') as u:
+        for s in user_head.chunks():
+            u.write(s)
+
+
+def upload(request, user_id):
+    user = Users.objects.get(pk=user_id)
+    if request.method == 'POST':
+        user_head = request.FILES
+        if len(user_head) > 0:
+            ext = os.path.splitext(user_head['user_head'].name)[1]
+            handle(user.id, user_head['user_head'], ext)
+            return render(request, 'sop/user_xx.html', {'user_xx': user, 'succeed': '上传成功'})
+        else:
+            return render(request, 'sop/user_xx.html', {'user_xx': user, 'succeed': '上传失败'})
 
 
 def home(request):
