@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>登录记录</title>
+    {% load static %}
+     <link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
 </head>
 <body>
 {% if user %}
     <h1>{{user.user_name}}的登录日志</h1>
-    <h1><a href="{% url 'sop:log' user.id %}">返回</a></h1>
+    <h1><a href="{% url 'sop:log'  %}">返回</a></h1>
     {% if login %}
         <ul>
             {% for loginS in login %}

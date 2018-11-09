@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>修改商品信息</title>
+    {% load static %}
+     <link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
 </head>
 <body>
 
@@ -10,7 +12,7 @@
 
     {% if goods %}
     <h1>请输入新的商品信息</h1>
-        <form action="{% url 'sop:update' user.id %}" method="post">
+        <form action="{% url 'sop:update'  %}" method="post">
             {% csrf_token %}
             商品名称： <input type="text" name="name"> <br>
             商品单价： <input type="text" name="price"> <br>
@@ -22,7 +24,7 @@
                      </select> <br>
             商品库存： <input type="text" name="stock">
             <input type="submit" value="确认修改">
-            <a href="{% url 'sop:log' user.id %}">返回</a>
+            <a href="{% url 'sop:log'  %}">返回</a>
         </form>
     {% endif %}
 {% endif %}

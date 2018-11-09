@@ -5,6 +5,7 @@
     <title>简易版交易系统</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'sop/style.css' %}" />
+	 <link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
 </head>
 <body>
 	
@@ -17,6 +18,7 @@
 		<p class="p1"><a href="{% url 'sop:login' %}">登录</a></p>
 		<p class="p2">Don't worry about the ambiguous future</p>
 		<p class="p2"> just work on the clear present</p>
+			<p><a href="{% url 'sop:admin'%}">admin</a></p>
 		</div>
 		<div class="side" id = "lunbo">
 		    <ul>

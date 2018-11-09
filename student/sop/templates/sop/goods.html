@@ -5,18 +5,20 @@
     <title>登录成功</title>
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'sop/style_5.css' %}" />
+	 <link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
 </head>
 <body>
 <div class="d1">
 	{% if users %}
 		<div class="d2">
-			<p><a href="{% url 'sop:deal' users %}">购买商品</a></p>
-			<p><a href="{% url 'sop:manage' users %}">卖家商品管理</a></p>
-			<p><a href="{% url 'sop:update_password' users %}">修改密码</a></p>
-			<p><a href="{% url 'sop:user_xx' users %}">查看账户信息</a></p>
-			<p><a href="{% url 'sop:yue' users %}">充值</a></p>
-			<p><a href="{% url 'sop:homes' users %}">退出</a></p>
-			<p><a href="{% url 'sop:show_login' users %}">查看登录记录</a></p>
+			<p><a href="{% url 'sop:deal' %}">购买商品</a></p>
+			<p><a href="{% url 'sop:manage' %}">卖家商品管理</a></p>
+			<p><a href="{% url 'sop:update_password' %}">修改密码</a></p>
+			<p><a href="{% url 'sop:user_xx' %}">查看账户信息</a></p>
+			<p><a href="{% url 'sop:yue' %}">充值</a></p>
+			<p><a href="{% url 'sop:show_order' %}">查看订单</a></p>
+			<p><a href="{% url 'sop:homes' %}">退出</a></p>
+			<p><a href="{% url 'sop:show_login' %}">查看登录记录</a></p>
 			<div class="d4"></div>
 			<div class="d5"></div>
 			<div class="d6"></div>

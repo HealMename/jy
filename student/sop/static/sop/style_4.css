@@ -15,7 +15,7 @@ input{
 form{
 	margin-left: 20px;
 	margin-top: 20px;
-	font-family: '方正喵呜体';
+	font-family: '楷体';
 }
 
 .i1{
@@ -48,12 +48,12 @@ form{
 	color: white;
 	background-color: rgba(0,0,0,0);
 	border: rgba(0,0,0,0) 0px;
-	font-family: '方正喵呜体';
+	font-family: '楷体';
 	}
 .i5{
 	background-color: rgba(0,0,0,0);
 	border: rgba(0,0,0,0) 0px;
-	color: white;font-family: '方正喵呜体';
+	color: white;font-family: '楷体';
 }
 
 body{

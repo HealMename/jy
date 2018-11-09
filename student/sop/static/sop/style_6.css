@@ -28,7 +28,7 @@ ul{
 }
 li{
 	list-style-type: none;
-	font-family: '方正喵呜体';
+	font-family: '楷体';
 }
 .buy{
 	position: relative;
@@ -72,7 +72,7 @@ li{
 a{
 	text-decoration: none;
 	color: #000000;
-	font-family: '方正喵呜体';
+	font-family: '楷体';
 }
 .succeed{
 	
@@ -81,7 +81,7 @@ a{
 	position: relative;
 	left: 700px;
 	top: -150px;
-	font-family: '方正喵呜体';
+	font-family: '楷体';
 	font-size: 50px;
 	display: inline-block;
 }

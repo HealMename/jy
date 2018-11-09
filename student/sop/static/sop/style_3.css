@@ -23,7 +23,7 @@ body{
 	left: 200px;
 	top: 300px;
 	color: white
-	font-family: '方正喵呜体';
+	font-family: '楷体';
 }
 
 
@@ -48,12 +48,12 @@ body{
 	float: left;
 	color: white;
 	background-color: rgba(0,0,0,0);
-	border: rgba(0,0,0,0) 0px;font-family: '方正喵呜体';
+	border: rgba(0,0,0,0) 0px;font-family: '楷体';
 	}
 .i5{
 	background-color: rgba(0,0,0,0);
 	border: rgba(0,0,0,0) 0px;
-	color: white;font-family: '方正喵呜体';
+	color: white;font-family: '楷体';
 }
 .d2{
 	width: 100px;
@@ -67,25 +67,25 @@ body{
 form{
 	margin-left: 20px;
 	margin-top: 20px;
-	font-family: '方正喵呜体';
+	font-family: '楷体';
 	color: white;
 	
 }
 p{
-	color: white;font-family: '方正喵呜体';
+	color: white;font-family: '楷体';
 }
 
 .i6{
 	position: relative;
-	left: 40px;opacity: 0.3;font-family: '方正喵呜体';
+	left: 40px;opacity: 0.3;font-family: '楷体';
 	
 }
 .i7{
 	position: relative;
-	left: 40px;opacity: 0.3;font-family: '方正喵呜体';
+	left: 40px;opacity: 0.3;font-family: '楷体';
 }
 .i8{
 	position: relative;
-	left: 40px;opacity: 0.3;font-family: '方正喵呜体';
+	left: 40px;opacity: 0.3;font-family: '楷体';
 }
 

@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {% load static %}
+     <link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
 </head>
 <body>
 {% if succeed %}
     <h1>{{succeed}}</h1>
-    <p><a href="{% url 'sop:log' user.id %}">返回</a></p>
+    <p><a href="{% url 'sop:log' %}">返回</a></p>
 {% endif %}
 {% if goods %}
 <h1>{{user.user_name}} 购买记录</h1>
 <h1>总共花费：{{all_rmb}}</h1>
-<a href="{% url 'sop:record_pages' user.id pages%}">上一页</a>
+<a href="{% url 'sop:record_pages'  pages%}">上一页</a>
  <h1>当前页数 {{pages}}</h1>
-<a href="{% url 'sop:record_next' user.id pages%}">下一页</a>
-<p><a href="{% url 'sop:log' user.id %}">返回</a></p>
+<a href="{% url 'sop:record_next' pages%}">下一页</a>
+<p><a href="{% url 'sop:log'  %}">返回</a></p>
 
 {% for goodss in goods%}
     <p>商品昵称： {{goodss.goods_name}}</p>

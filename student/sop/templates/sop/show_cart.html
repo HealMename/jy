@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>购物车</title>
+    {% load static %}
+     <link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
 </head>
 <body>
 <h1>{{user.user_name}}的购物车</h1>
 <p>{{all_rmb}}</p>
-<p><a href="{% url 'sop:log' user.id %}">返回</a></p>
+<p><a href="{% url 'sop:log' %}">返回</a></p>
 {% if succeed %}
     <p>{{succeed}}</p>
 {% endif %}
-<a href="{% url 'sop:close' user.id %}">结算</a>
-<a href="{% url 'sop:del_all' user.id %}">清空购物车</a>
+<a href="{% url 'sop:close'  %}">结算</a>
+<a href="{% url 'sop:del_all'  %}">清空购物车</a>
 <p>=================================</p>
 {% if cart %}
     {% for carts in cart %}
@@ -20,7 +22,7 @@
         <p>商品单价： {{carts.goods_price}}</p>
         <p>商品数量： {{carts.goods_x}}</p>
         <p>商品编号： {{carts.goods_id}}</p>
-        <a href="{% url 'sop:del_goods'  user.id carts.goods_id %}">移除商品</a>
+        <a href="{% url 'sop:del_goods'   carts.goods_id %}">移除商品</a>
     <p>=================================</p>
     {% endfor %}
 {% endif %}

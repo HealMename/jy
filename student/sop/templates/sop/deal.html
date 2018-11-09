@@ -10,12 +10,11 @@
 <div class="d1">
 	{% if user %}
 		<div class="d2">
-			<p><a href="{% url 'sop:shop' user.id %}">浏览商品列表</a></p>
-			<p><a href="{% url 'sop:manage' user.id %}">查看商品详细信息</a></p>
-			<p><a href="{% url 'sop:get_goods' user.id %}">购买商品</a></p>
-			<p><a href="{% url 'sop:goods_record' user.id %}">查看已购买的商品</a></p>
-			<p><a href="{% url 'sop:show_cart' user.id %}">查看购物车</a></p>
-			<p><a href="{% url 'sop:log' user.id %}">返回</a></p>
+			<p><a href="{% url 'sop:shop' %}">浏览商品列表</a></p>
+			<p><a href="{% url 'sop:manage' %}">查看商品详细信息</a></p>
+			<p><a href="{% url 'sop:goods_record' %}">查看已购买的商品</a></p>
+			<p><a href="{% url 'sop:show_cart' %}">查看购物车</a></p>
+			<p><a href="{% url 'sop:log' %}">返回</a></p>
 			<p>Welcome to the buying screen</p>
 			<div class="d4"></div>
 			<div class="d5"></div>

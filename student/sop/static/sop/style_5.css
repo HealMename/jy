@@ -17,20 +17,20 @@ body{
 
 .d2{
 	width: 326px;
-	height: 260px;
+	height: 280px;
 	box-shadow: rgba(0,0,0,0.4) 0px 0px 20px 1px;
 	position: absolute;
 	background-color: rgba(0,0,0,0.4);
 	left: 200px;
 	top: 400px;
 	text-align: center;
-	font-family: '方正喵呜体';
+	font-family: '楷体';
 }
 
 a{
 	text-decoration: none;
 	color: white;
-	font-family: '方正喵呜体';
+	font-family: '楷体';
 	
 }
 .d4{

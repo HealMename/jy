@@ -5,6 +5,14 @@
     <title>用户信息</title>
     {% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'sop/style_8.css' %}" />
+     <link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
+    <style>
+        .img{
+            background-image: url({% static user_xx.user_account %}.jpg);
+            background-size: 100%;
+            height: 640px;
+        }
+    </style>
 </head>
 <body>
 <div class="img">
@@ -14,12 +22,12 @@
     <p>密保问题:  {{user_xx.user_question}}</p>
     <p>用户余额:  {{user_xx.user_RMB}}</p>
     <p>注册时间:  {{user_xx.user_time}}</p>
-    <form action="{% url 'sop:upload' user_xx.id %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'sop:upload'  %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     更换背景： <input type="file" name="user_head" class="i1">
     <input type="submit" value="提交">
     </form>
-    <a href="{% url 'sop:log' user_xx.id %}">返回</a>
+    <a href="{% url 'sop:log' %}">返回</a>
 
 
 

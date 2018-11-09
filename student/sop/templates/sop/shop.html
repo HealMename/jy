@@ -5,13 +5,14 @@
     <title>购买商品</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'sop/style_6.css' %}" />
+	 <link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
 </head>
 <body>
 <div class="all_div">
 	<div class="show_menu">
-		<p><a href="{% url 'sop:log' user.id %}">返回</a></p>
-		<p> <a href="{% url 'sop:page' user.id pages %}" class="page">上一页</a></p>
-	    <p> <a href="{% url 'sop:next' user.id pages %}" class="next">下一页</a></p>
+		<p><a href="{% url 'sop:log'  %}">返回</a></p>
+		<p> <a href="{% url 'sop:page'  pages %}" class="page">上一页</a></p>
+	    <p> <a href="{% url 'sop:next'  pages %}" class="next">下一页</a></p>
 		<p>{{user.user_RMB}}</p>
 	    {% if succeed %}
 	     <p class="succeed">{{succeed}}</p>
@@ -21,7 +22,7 @@
 	<div class="show_goods">
 		{% if goods %}
 	    {% for goods_all in goods %}
-	        <form action="{% url 'sop:shops' user.id pages %}" method="post" class="form_1">
+	        <form action="{% url 'sop:shops' pages %}" method="post" class="form_1">
 				{% csrf_token %}
 				
 				<ul>
@@ -29,16 +30,16 @@
 					<li>商品编号：<input type="text" name="goods_id" value="{{goods_all.goods_id}}" class="id" readonly="true"></li>
 					<li>商品分类：{{goods_all.goods_class}}</li>
 					<li>商品库存：{{goods_all.goods_stock}}</li>
-					<li>添加时间：{{goods_all.goods_time}}</li>
-					<li>购买数量： <input type="text" name="stock" value="1" class="stock"></li>
+					<li>添加时间：{{goods_all.goods_time|date:'Y-m-d H:i:s'}}</li>
+					<li>{{form}}</li>
 				</ul>	          
 					<p class="price">{{goods_all.goods_price}}$</p>
 					<input type="submit" value="购买" class="buy" id="buy">
 	        </form>
-	        <form action="{% url 'sop:cart' user.id pages%}" method="post" class="form_2">
+	        <form action="{% url 'sop:cart' pages%}" method="post" class="form_2">
 	            {% csrf_token %}
 	            <input type="text" value="{{goods_all.goods_id}}" name="goods_id" class="goods_id">
-	            添加数量： <input type="text" name="stock" class="stock">
+	            {{form}}
 	            <input type="submit" value="添加到购物车" class="cart" id="cart">
 	        </form>
 	    {% endfor %}
@@ -48,20 +49,7 @@
 	
 </div>
 
-<script type="text/javascript">
-	var a = document.getElementById("buy")
-	a.onclick = function (){
-		
-			alert('{{succeed}}')
-		
-	}
-	var b = document.getElementById("cart")
-	b.onclick = function (){
-		
-			alert('{{succeed}}')
-		
-	}
-</script>
+
 
 </body>
 </html>

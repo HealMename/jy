@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html ng-app="app" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>站长流水</title>
+	<style type="text/css">
+		
+	</style>
+    {% load static %} 
+	<link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
+	<link rel="stylesheet" type="text/css" href="{% static 'sop/wui.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'sop/sj.css' %}">
+	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.0/angular.min.js"></script>
+	<script type="text/javascript" src="{% static 'sop/js/wui-date.js' %}" charset="utf-8"></script>
+
+    <style>
+        td{
+            padding:10px;
+        }
+        th{
+            padding:10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>总收入{{admin}}</h1>
+<h1>总支出{{admins}}</h1>
+<p><a href="{% url 'sop:home'%}">返回</a>---
+    <a href="{% url 'sop:incomes' %}">收入</a>---
+    <a href="{% url 'sop:expend' %}">支出</a>---
+    <a href="{% url 'sop:admin' %}">所有</a></p>
+<form action="{% url 'sop:admin_time' %}" method="post">
+    {% csrf_token %}
+    <select name="month" id="">
+        <option value="1">1月</option>
+        <option value="2">2月</option>
+        <option value="3">3月</option>
+        <option value="4">4月</option>
+        <option value="5">5月</option>
+        <option value="6">6月</option>
+        <option value="7">7月</option>
+        <option value="8">8月</option>
+        <option value="9">9月</option>
+        <option value="10">10月</option>
+        <option value="11">11月</option>
+        <option value="12">12月</option>
+    </select>
+    <input type="submit" value="查看">
+</form>
+{% if incomes %}
+<table border="1px" cellpadding="0px" cellspacing="0px">
+    <tr>
+        <th>支出/收入</th>
+        <th>金额</th>
+        <th>时间</th>
+    </tr>
+    {% for i in incomes%}
+    <tr>
+        <td>{{i.water}}</td>
+        <td>{{i.detail}}</td>
+        <td>{{i.times|date:'Y-m-d H:i:s'}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+    <p>暂无信息</p>
+{% endif %}
+
+	<form action="{% url 'sop:times' %}" method="post">
+        {% csrf_token %}
+		<div class="wui-area">
+				<h4 class="h4">选择年月日 时分秒</h4>
+				<wui-date
+					format="yyyy-mm-dd hh:mm:ss" 
+					placeholder="请选择或输入日期" 
+					id="date4" 
+					btns="{'ok':'确定','now':'此刻'}" 
+					ng-model="date4"
+					name = 'times'
+				>
+				
+				</wui-date>
+			</div>
+		<input type="submit" value="提交" />
+	</form>
+		
+		<script type="text/javascript" >
+			var app = angular.module('app',["wui.date"]);
+
+			var times = document.getElementsByClassName('wui-input');
+			
+				console.log(times.list)
+		
+			var a1 = $("input");
+			console.log(a1)
+			
+		</script>
+
+</body>
+
+</html>
