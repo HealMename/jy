@@ -1,15 +1,14 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>购物车</title>
+	<title>商品管理</title>
 	{% load static %}
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="{% static 'sop/css/myresponsee.css' %}">
 	<link rel="stylesheet" href="{% static 'sop/css/style.css'%}">
 	<!--Favicon-->
-	<link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
-
+    <link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
 
 
     <!-- Responsive -->
@@ -18,8 +17,8 @@
 	<link href="{% static 'sop/css/responsive.css' %}" rel="stylesheet">
 	<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
 	<!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
-</head> 
-  
+</head>
+
 <body class="size-1140">
 
 <!-- HIDDEN PRODUCTS MENU START -->
@@ -45,9 +44,9 @@
 <!-- |||||||||||||||||| page start ||||||||||||||||||| -->
 <!-- ||||| --> <div id="page-main-content"> <!-- ||||| -->
 <!-- ||||||||||||||||||||||||||||||||||||||||||||||||| -->
-	
+
 <!-- HEADER START -->
-<header> 
+<header>
 	<!-- top bar start -->
 	<div id="topbar" class="background-primary">
 		<div class="line">
@@ -68,7 +67,7 @@
 				<div class="right">
 					<ul class="topbar-menu">
 						{% if user_id %}
-							<li><a href="{% url 'sop:add_goods' %}">上架商品</a></li>
+                            <li><a href="{% url 'sop:add_goods' %}">上架商品</a></li>
 							<li><a href="{% url 'sop:ll' %}">商品管理</a></li>
 							<li><a href="{% url 'sop:homes' %}">退出登录</a></li>
 							<li><a href="{% url 'sop:user_xx' %}">{{user_id.user_name}}</a></li>
@@ -82,7 +81,7 @@
 		</div>
 	</div>
 	<!-- top bar end -->
-	
+
 	<!-- navigation and logo -->
 	<nav class="background-dark">
 		<div class="line">
@@ -92,33 +91,34 @@
 				    <a href="{% url 'sop:index' %}" class="logo"><img src="{% static 'sop/img/logo.png'%}" alt=""></a>
 				</div>
 			</div>
-			
+
 			<!-- navigation -->
 			<div class="top-nav s-12 m-12 l-9">
 				<a class="nav-text"></a>
 				<ul class="right chevron">
 					<li><a class="index.html" href="{% url 'sop:index' %}">首页</a></li>
+					<li><a href="">关于我们</a></li>
+					<li><a href="">联系我们</a></li>
 					<li><a href="{% url 'sop:shop'%}">商品列表</a></li>
 					<li><a href="{% url 'sop:show_cart' %}">购物车</a></li>
-
+					<li><a href="">登录日志</a></li>
 				</ul>
 			</div>
-			
+
 		</div>
 	</nav>
 </header>
 <!-- HEADER END -->
 
 <!-- PAGE CONTENT START -->
-<div class="section"> 
+<div class="section">
 
 	<!-- heading and description -->
 	<div class="line">
 		<div class="fullwidth margin-bottom-20">
 			{% if user_id %}
-			<h1 class="text-center">我的购物车</h1>
-			<p class="text-center">这命运的天，让我们遇见.</p>
-			<p class="text-center">{{succeed}}</p>
+			<h1 class="text-center">商品修改</h1>
+			<p class="text-center">你不要我了吗？为什么要改我，是我不好看吗？.</p>
 			<hr class="break-small break-center">
 			{% else%}
 			<h1 class="text-center">您还没有登录呢</h1>
@@ -133,49 +133,73 @@
 
 		<!-- cart left -->
 		<div class="s-12 m-12 l-8">
-			{% if cart %}
-				{% for i in cart %}
+
 				<!-- item 1 -->
 				<div class="fullwidth cart-item">
 					<div class="s-12 m-4 l-3 cart-item-image">
-						<img src="{% static i.goods_id %}.png" alt="">
+						<img src="{% static goods.goods_id %}.png" alt="">
 					</div>
 					<div class="s-12 m-8 l-9 cart-item-detail">
-						<h4>{{i.goods_name}}</h4>
+						<h4>{{goods.goods_name}}</h4>
 						<p>
-						价格: <span class="strike">原价 $150</span> 现价 {{i.goods_price}}<br />
-						数量: {{i.goods_x}}<br />
+						 <span class="strike">原价 $150</span> 现价 {{goods.goods_price}}<br />
+
+                            编号: {{goods.goods_id}} <br>
+                            歌手: {{goods.goods_class}} <br>
+
+                            库存: {{goods.goods_stock}} <br>
+                            发布人id: {{goods.goods_user_id}} <br>
+                            发布时间: {{goods.goods_time|date:'Y-m-d H:i:s' }} <br>
+                            修改时间: {{goods.goods_update|date:'Y-m-d' }} <br>
+                            上架信息： {{goods.goods_state}}
+							{{loser}}
+							{{succeed}}
+							{{form.goods_name.error}}
+							{{form.goods_price.error}}
+							{{form.goods_stock.error}}
+
 						</p>
-						<p><a href="{% url 'sop:del_goods' i.goods_id %}" class="remove-item">移除购物车</a></p>
+                        <p>
+
+
 					</div>
 				</div>
-				{% endfor %}
-			{% else %}
-				<h1>购物车已清空</h1>
-			{% endif %}
+
+
 
 
 
 		</div>
 
 		<!-- cart right -->
-		<div class="s-12 m-12 l-4 margin-m-top-60 padding border-1">
+        <div class="s-12 m-12 l-4 margin-m-top-60 padding border-1">
+            <form action="{% url 'sop:update_goods' goods.goods_id %}" method="post">
+				{% csrf_token %}
+                <p class="margin-bottom text-size-16">新名称: <span class="right"><input type="text" value="{{goods.goods_name}}" name="goods_name"></span></p>
 
-			<p class="margin-bottom text-size-16">用户: <span class="right">{{user_id.user_name}}</span></p>
-			<p class="margin-bottom text-size-16">余额: <span class="right">{{user_id.user_RMB}}</span></p>
-			{% if all_rmb %}
-			<p class="margin-bottom text-size-16">合计: <span class="right">{{all_rmb}}</span></p>
-			{% else %}
-			<p class="margin-bottom text-size-16">合计: <span class="right">0</span></p>
-			{% endif%}
-			<a href="{% url 'sop:close' %}" class="button fullwidth">结算</a>
+                <p class="margin-bottom text-size-16">新库存: <span class="right"><input type="number" value="{{goods.goods_stock}}" name="goods_stock"></span></p>
+
+                <p class="margin-bottom text-size-16">新价格: <span class="right"><input type="number" value="{{goods.goods_price}}" name="goods_price"></span></p>
+
+                <p class="margin-bottom text-size-16">新歌手: <span class="right"><select name="goods_class" id="">
+                                <option value="">请选择一个歌手</option>
+                                <option value="薛之谦">薛之谦</option>
+                                <option value="林俊杰">林俊杰</option>
+                                <option value="于文文">于文文</option>
+                                <option value="周杰伦">周杰伦</option>
+                                <option value="传说中的刷牙者">传说中的刷牙者</option>
+                                <option value="冷鸢">冷鸢</option>
+                                <option value="邓紫棋">邓紫棋</option>
+                                <option value="张紫豪">张紫豪</option>
+                            	</select></span></p>
+
+                <input type="submit" style="height: 60px; background-color: rgba(0,0,0,0); border: 1px black;" class="button fullwidth" value="提交">
+            </form>
+
 		</div>
-		
 	</div>
 </div>
 <!-- PAGE CONTENT END -->
-    
-<!-- FOOTER START -->
 
 <!-- FOOTER END -->
 
@@ -188,9 +212,9 @@
 <script type="text/javascript" src="{% static 'sop/js/jquery-ui.min.js'%}"></script>
 <script type="text/javascript" src="{% static 'sop/owl-carousel/owl.carousel.js'%}"></script>
 <script type="text/javascript" src="{% static 'sop/js/custom.js'%}"></script>
-   
-   
-   
-   
+
+
+
+
 </body>
 </html>

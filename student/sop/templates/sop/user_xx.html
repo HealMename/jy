@@ -14,32 +14,8 @@
         }
     </style>
 </head>
-<body>
-<div class="img">
-{% if user_xx %}
-    <p>用户昵称:  {{user_xx.user_name}}</p>
-    <p>用户账号:  {{user_xx.user_account}}</p>
-    <p>密保问题:  {{user_xx.user_question}}</p>
-    <p>用户余额:  {{user_xx.user_RMB}}</p>
-    <p>注册时间:  {{user_xx.user_time}}</p>
-    <form action="{% url 'sop:upload'  %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    更换背景： <input type="file" name="user_head" class="i1">
-    <input type="submit" value="提交">
-    </form>
-    <a href="{% url 'sop:log' %}">返回</a>
 
 
 
-
-
-
-    {% if succeed %}
-        <p>{{succeed}}</p>
-    {% endif %}
-{% else %}
-    <p>暂无信息</p>
-{% endif %}
-</div>
-</body>
+</script>
 </html>

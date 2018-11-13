@@ -2,15 +2,17 @@
 <html lang="zxx">
 <head>
 	<meta charset="UTF-8">
-	<title>Home</title>
+	<title>黑淘</title>
 	<!-- Stylesheets -->
 	{% load static %}
 	<link rel="stylesheet" href="{% static 'sop/css/myresponsee.css' %}">
 	<link rel="stylesheet" href="{% static 'sop/css/style.css' %}">
 	<!--Favicon-->
-	<link rel="shortcut icon" href="{% static 'sop/img/favicon.ico'%}" type="image/x-icon">
-	<link rel="icon" href="{% static 'sop/img/favicon.ico' %}" type="image/x-icon">
+
+
     <!-- Responsive -->
+	<link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
+
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="{% static 'sop/css/responsive.css' %}" rel="stylesheet">
@@ -19,25 +21,8 @@
 </head>
 
 <body class="size-1140">
-
 <!-- HIDDEN PRODUCTS MENU START -->
-<nav id="main-nav">
-	<ul>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Facial Wash</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Exflotiate Scrub</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Natural Skin Care</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Facial Toner</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Moisturizing Cream</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Anti Wrinkle Cream</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Sun Protection</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Hand Cream</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Hair Removing Cream</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Foot Cream</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Under Arm Protection</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Slimming Cream</span></a></li>
-	</ul>
-	<a href="#0" class="hidden-menu-close">Close<span></span></a>
-</nav>
+
 <!-- HIDDEN PRODUCTS MENU END -->
 
 <!-- |||||||||||||||||| page start ||||||||||||||||||| -->
@@ -52,7 +37,7 @@
 		    <!-- social icons -->
 			<div class="s-12 m-12 l-6">
 				<ul>
-				  <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+				  <li><a href="{% url 'sop:admin' %}"><i class="fa fa-instagram"></i></a></li>
 				  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
 				  <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
 				  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -66,6 +51,8 @@
 				<div class="right">
 					<ul class="topbar-menu">
 						{% if user_id %}
+							<li><a href="{% url 'sop:add_goods' %}">上架商品</a></li>
+							<li><a href="{% url 'sop:ll' %}">商品管理</a></li>
 							<li><a href="{% url 'sop:homes' %}">退出登录</a></li>
 							<li><a href="{% url 'sop:user_xx' %}">{{user_id.user_name}}</a></li>
 						{% else %}
@@ -94,11 +81,10 @@
 				<a class="nav-text"></a>
 				<ul class="right chevron">
 					<li><a class="index.html" href="{% url 'sop:index' %}">首页</a></li>
-					<li><a href="">关于我们</a></li>
-					<li><a href="">联系我们</a></li>
+
 					<li><a href="{% url 'sop:shop'%}">商品列表</a></li>
 					<li><a href="{% url 'sop:show_cart' %}">购物车</a></li>
-					<li><a href="">登录日志</a></li>
+
 				</ul>
 			</div>
 
@@ -117,14 +103,15 @@
 				<img src="{% static 'sop/img/slideshow/slide1.jpg'%}" alt="">
 			</div>
 		</div>
+
 		<!-- slideshow content -->
 		<div class="carousel-content">
 			<div class="content-center-vertical line">
 				<div class="s-12 m-8 l-7">
-					<h1 class="margin-bottom-10 animated-carousel-element">又是一个炎热的夏天 <br>哭过会觉得好些</h1>
-					<p class="margin-bottom-30 animated-carousel-element slow">不求最好，但求最贵！</p>
+					<h1 class="margin-bottom-10 animated-carousel-element">我该规矩的跳入每个 <br>我好像还记得愿望是什么</h1>
+					<p class="margin-bottom-30 animated-carousel-element slow">《违背的青春》</p>
 					<div class="animated-carousel-element">
-						<a href="" class="slideshow-btn">现在购买</a><a href="" class="slideshow-btn2">查看详情</a>
+						<a href="" class="slideshow-btn">现在购买</a><a href="#" class="slideshow-btn2">查看详情</a>
 					</div>
 				</div>
 			</div>
@@ -141,10 +128,10 @@
 		<div class="carousel-content">
 			<div class="content-center-vertical line">
 				<div class="s-12 m-8 l-7">
-					<h1 class="margin-bottom-10 animated-carousel-element">丢掉你给的照片 <br> 相信久了会好些</h1>
-					<p class="margin-bottom-30 animated-carousel-element slow">不求最好，但求最贵！</p>
+					<h1 class="margin-bottom-10 animated-carousel-element">你不就像风一样 <br> 触摸时温柔流淌</h1>
+					<p class="margin-bottom-30 animated-carousel-element slow">《像风一样》</p>
 					<div class="animated-carousel-element">
-						<a href="" class="slideshow-btn">现在购买</a><a href="" class="slideshow-btn2">查看详情</a>
+						<a href="#" class="slideshow-btn">现在购买</a><a href="#" class="slideshow-btn2">查看详情</a>
 					</div>
 				</div>
 			</div>
@@ -163,10 +150,10 @@
 		<div class="carousel-content">
 			<div class="content-center-vertical line">
 				<div class="s-12 m-8 l-7">
-					<h1 class="margin-bottom-10 animated-carousel-element">还是那些无聊的画面 <br> 一直要让你出现</h1>
-					<p class="margin-bottom-30 animated-carousel-element slow">不求最好，但求最贵！.</p>
+					<h1 class="margin-bottom-10 animated-carousel-element">雪下的那么深 <br>下的那么认真</h1>
+					<p class="margin-bottom-30 animated-carousel-element slow">《认真的雪》</p>
 					<div class="animated-carousel-element">
-						<a href="" class="slideshow-btn">现在购买</a><a href="" class="slideshow-btn2">查看详情</a>
+						<a href="#" class="slideshow-btn">现在购买</a><a href="#" class="slideshow-btn2">查看详情</a>
 					</div>
 				</div>
 			</div>

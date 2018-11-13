@@ -293,6 +293,7 @@ a.button, a.button:link {
   -moz-transition: all 0.20s linear 0s;
   -webkit-transition: all 0.20s linear 0s;
 }
+
 a.button:hover {
   background:#cf9963;
   border-color:#cf9963;

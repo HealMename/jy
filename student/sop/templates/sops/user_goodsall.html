@@ -1,15 +1,14 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>购物车</title>
+	<title>商品管理</title>
 	{% load static %}
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="{% static 'sop/css/myresponsee.css' %}">
 	<link rel="stylesheet" href="{% static 'sop/css/style.css'%}">
 	<!--Favicon-->
-	<link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
-
+    <link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
 
 
     <!-- Responsive -->
@@ -18,8 +17,8 @@
 	<link href="{% static 'sop/css/responsive.css' %}" rel="stylesheet">
 	<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
 	<!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
-</head> 
-  
+</head>
+
 <body class="size-1140">
 
 <!-- HIDDEN PRODUCTS MENU START -->
@@ -45,9 +44,9 @@
 <!-- |||||||||||||||||| page start ||||||||||||||||||| -->
 <!-- ||||| --> <div id="page-main-content"> <!-- ||||| -->
 <!-- ||||||||||||||||||||||||||||||||||||||||||||||||| -->
-	
+
 <!-- HEADER START -->
-<header> 
+<header>
 	<!-- top bar start -->
 	<div id="topbar" class="background-primary">
 		<div class="line">
@@ -68,7 +67,7 @@
 				<div class="right">
 					<ul class="topbar-menu">
 						{% if user_id %}
-							<li><a href="{% url 'sop:add_goods' %}">上架商品</a></li>
+                            <li><a href="{% url 'sop:add_goods' %}">上架商品</a></li>
 							<li><a href="{% url 'sop:ll' %}">商品管理</a></li>
 							<li><a href="{% url 'sop:homes' %}">退出登录</a></li>
 							<li><a href="{% url 'sop:user_xx' %}">{{user_id.user_name}}</a></li>
@@ -82,7 +81,7 @@
 		</div>
 	</div>
 	<!-- top bar end -->
-	
+
 	<!-- navigation and logo -->
 	<nav class="background-dark">
 		<div class="line">
@@ -92,33 +91,34 @@
 				    <a href="{% url 'sop:index' %}" class="logo"><img src="{% static 'sop/img/logo.png'%}" alt=""></a>
 				</div>
 			</div>
-			
+
 			<!-- navigation -->
 			<div class="top-nav s-12 m-12 l-9">
 				<a class="nav-text"></a>
 				<ul class="right chevron">
 					<li><a class="index.html" href="{% url 'sop:index' %}">首页</a></li>
+					<li><a href="">关于我们</a></li>
+					<li><a href="">联系我们</a></li>
 					<li><a href="{% url 'sop:shop'%}">商品列表</a></li>
 					<li><a href="{% url 'sop:show_cart' %}">购物车</a></li>
-
+					<li><a href="">登录日志</a></li>
 				</ul>
 			</div>
-			
+
 		</div>
 	</nav>
 </header>
 <!-- HEADER END -->
 
 <!-- PAGE CONTENT START -->
-<div class="section"> 
+<div class="section">
 
 	<!-- heading and description -->
 	<div class="line">
 		<div class="fullwidth margin-bottom-20">
 			{% if user_id %}
-			<h1 class="text-center">我的购物车</h1>
+			<h1 class="text-center">我的商品</h1>
 			<p class="text-center">这命运的天，让我们遇见.</p>
-			<p class="text-center">{{succeed}}</p>
 			<hr class="break-small break-center">
 			{% else%}
 			<h1 class="text-center">您还没有登录呢</h1>
@@ -133,8 +133,8 @@
 
 		<!-- cart left -->
 		<div class="s-12 m-12 l-8">
-			{% if cart %}
-				{% for i in cart %}
+			{% if user_goods %}
+				{% for i in user_goods %}
 				<!-- item 1 -->
 				<div class="fullwidth cart-item">
 					<div class="s-12 m-4 l-3 cart-item-image">
@@ -144,14 +144,26 @@
 						<h4>{{i.goods_name}}</h4>
 						<p>
 						价格: <span class="strike">原价 $150</span> 现价 {{i.goods_price}}<br />
-						数量: {{i.goods_x}}<br />
+						库存: {{i.goods_stock}}<br />
+                        编号: {{i.goods_id}} <br>
+                        歌手: {{i.goods_class}} <br>
+                            发布时间: {{i.goods_time|date:'Y-m-d H:i:s' }} <br>
+                            修改时间: {{i.goods_update|date:'Y-m-d' }} <br>
+                            发布人id: {{i.goods_user_id}} <br>
+                            上架信息： {{i.goods_state}}
 						</p>
-						<p><a href="{% url 'sop:del_goods' i.goods_id %}" class="remove-item">移除购物车</a></p>
+                        <p>
+                        {% if i.goods_state == '已上架' %}
+                        <a href="{% url 'sop:cancel' i.goods_id %}" class="remove-item">下架</a>
+                        {% else %}
+                        <a href="{% url 'sop:state' i.goods_id %}" class="remove-item">上架</a></p>
+                        {% endif %}
+						<a href="{% url 'sop:update_goods' i.goods_id%}" class="remove-item">修改商品</a>
 					</div>
 				</div>
 				{% endfor %}
 			{% else %}
-				<h1>购物车已清空</h1>
+				<h1>您还没有发布任何商品</h1>
 			{% endif %}
 
 
@@ -159,23 +171,11 @@
 		</div>
 
 		<!-- cart right -->
-		<div class="s-12 m-12 l-4 margin-m-top-60 padding border-1">
 
-			<p class="margin-bottom text-size-16">用户: <span class="right">{{user_id.user_name}}</span></p>
-			<p class="margin-bottom text-size-16">余额: <span class="right">{{user_id.user_RMB}}</span></p>
-			{% if all_rmb %}
-			<p class="margin-bottom text-size-16">合计: <span class="right">{{all_rmb}}</span></p>
-			{% else %}
-			<p class="margin-bottom text-size-16">合计: <span class="right">0</span></p>
-			{% endif%}
-			<a href="{% url 'sop:close' %}" class="button fullwidth">结算</a>
-		</div>
-		
+
 	</div>
 </div>
 <!-- PAGE CONTENT END -->
-    
-<!-- FOOTER START -->
 
 <!-- FOOTER END -->
 
@@ -188,9 +188,9 @@
 <script type="text/javascript" src="{% static 'sop/js/jquery-ui.min.js'%}"></script>
 <script type="text/javascript" src="{% static 'sop/owl-carousel/owl.carousel.js'%}"></script>
 <script type="text/javascript" src="{% static 'sop/js/custom.js'%}"></script>
-   
-   
-   
-   
+
+
+
+
 </body>
 </html>

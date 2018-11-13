@@ -13,7 +13,6 @@
 			<form action="{% url 'sop:lo' code %}" method="post">
 			{% csrf_token %}
 				{{ form.as_p }}
-
 			<p class="p1">{{code}}</p><br>
 			<input type="submit" value="登录" class="i5">
 			<input type="button" value="返回" onClick="location.href='{% url 'sop:home' %}'" class="i4"/>

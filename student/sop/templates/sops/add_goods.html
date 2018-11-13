@@ -7,13 +7,14 @@
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>注册</title>
+	<title>添加商品</title>
+	{% load static %}
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Template by FreeHTML5.co" />
 	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
-	
+	<link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
 
-  	{% load static %}
+
 
   	<!-- Facebook and Twitter integration -->
 	<meta property="og:title" content=""/>
@@ -27,7 +28,7 @@
 	<meta name="twitter:card" content="" />
 
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-	<link rel="shortcut icon" href="favicon.ico">
+
 
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
 	
@@ -52,38 +53,48 @@
 					
 
 					<!-- Start Sign In Form -->
-					<form action="{% url 'sop:register' code %}" class="fh5co-form animate-box" data-animate-effect="fadeInLeft" method="post">
+					<form action="{% url 'sop:add_goods_add' %}" class="fh5co-form animate-box" data-animate-effect="fadeInLeft" method="post" enctype="multipart/form-data">
 						{% csrf_token %}
-						<h2>注册</h2>
-						<div class="form-group">
+						<h2>添加商品</h2>
 
-							<div class="alert alert-success" role="alert">{{nots}}{{form.user_name.errors}}{{form.user_account.errors}}{{form.user_password.errors}}</div>
+						<div class="form-group">
+							<div class="alert alert-success" role="alert">
+                                {{ succeed }}
+                                {{form.errors}}
+							</div>
 						</div>
 
 						<div class="form-group">
 							<label for="name" class="sr-only">Name</label>
-							<input name="user_name" type="text" class="form-control" id="name" placeholder="昵称" autocomplete="off">
+							<input name="goods_name" type="text" class="form-control" id="name" placeholder="商品名称" autocomplete="off">
 						</div>
 						<div class="form-group">
 							<label for="email" class="sr-only">Email</label>
-							<input name="user_account" type="text" class="form-control" id="email" placeholder="账号" autocomplete="off">
+							<input name="goods_price" type="text" class="form-control" id="email" placeholder="商品单价" autocomplete="off">
 						</div>
 						<div class="form-group">
 							<label for="password" class="sr-only">Password</label>
-							<input name="user_password" type="password" class="form-control" id="password" placeholder="密码" autocomplete="off">
+							<input name="goods_stock" type="number" class="form-control" id="password" placeholder="商品库存" autocomplete="off">
 						</div>
-						<div class="form-group">
-							<label for="re" class="sr-only">Re-type Password</label>
-							<input name="code" type="text" class="form-control" id="re" placeholder="验证码" autocomplete="off">
+                        <div class="form-group">
+
+                            <select name="goods_class" id="">
+                                <option value="XZQ">薛之谦</option>
+                                <option value="LJJ">林俊杰</option>
+                                <option value="YWW">于文文</option>
+                                <option value="ZJL">周杰伦</option>
+                                <option value="SYZ">传说中的刷牙者</option>
+                                <option value="LY">冷鸢</option>
+                                <option value="DZQ">邓紫棋</option>
+                            </select>
+                            {{ form.error }}
+
 						</div>
+                         <div class="form-group">
+                             <input type="file" name="goods_img" class="btn btn-primary">
+                         </div>
 						<div class="form-group">
-							<label for="remember"><span id="remember">{{code}}</span></label>
-						</div>
-						<div class="form-group">
-							<p>已经注册过了? <a href="{% url 'sop:login' %}">登录</a></p>
-						</div>
-						<div class="form-group">
-							<input type="submit" value="注册" class="btn btn-primary">
+							<input type="submit" value="添加" class="btn btn-primary">
 							<input type="button" onclick='location.href=({% url "sop:home" %})' value="返回" class="btn btn-primary"/>
 						</div>
 					</form>

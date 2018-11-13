@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views, new_views
-
+from django.conf import settings
+from django.conf.urls.static import static
 app_name = 'sop'
 urlpatterns = [
     path('', views.home, name='home'),
@@ -20,7 +21,7 @@ urlpatterns = [
     path('ll/', views.ll, name='ll'),
     path('goods_z/', views.goods_z, name='goods_z'),
     path('goods_id/', views.goods_id, name='goods_id'),
-    path('update_goods/', views.update_goods, name='update_goods'),
+
     path('update_goo/', views.update_goo, name='update_goo'),
     path('update/', views.update, name='update'),
     path('all_goods/', views.all_goods, name='all_goods'),
@@ -32,7 +33,7 @@ urlpatterns = [
     path('<pages>/shops/', views.shops, name='shops'),
     path('deal/', views.deal, name='deal'),
     path('goods_record', views.goods_record, name='goods_record'),
-    path('<pages>/cart/', views.cart, name='cart'),
+    path('<goods_id>/<page>/cart/', views.cart, name='cart'),
     path('show_cart/', views.show_cart, name='show_cart'),
     path('close/', views.close, name='close'),
     path('<goods_id>/del_goods/', views.del_goods, name='del_goods'),
@@ -48,6 +49,7 @@ urlpatterns = [
 
 
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns +=[
     path('show_order/', new_views.show_order, name='show_order'),
@@ -60,5 +62,9 @@ urlpatterns +=[
     path('<page>/down_ll/', views.down_ll, name='down_ll'),
     path('admin_time/', new_views.admin_time, name='admin_time'),
     path('times/', new_views.times, name='times'),
-    path('index/', new_views.index, name='index')
+    path('index/', new_views.index, name='index'),
+    path('user_head/', new_views.user_head, name='user_head'),
+    path('update_question/', new_views.update_question, name='update_question'),
+    path('<goods_id>/update_goods/', new_views.update_goods, name='update_goods'),
+
 ]

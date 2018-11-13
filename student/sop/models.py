@@ -1,29 +1,10 @@
 from django.db import models
 from django.utils import timezone
+import os
+import random
+from django.conf import settings
 
 
-# class GoodsManager(models.Manager):
-#
-#     def update_goods(self, goods_name, goods_id, goods_price, goods_class, goods_stock, goods_update, goods_user):
-#         self.update(goods_name=goods_name,
-#                     goods_id=goods_id,
-#                     goods_price=goods_price,
-#                     goods_class=goods_class,
-#                     goods_stock=goods_stock,
-#                     goods_user=goods_user,
-#                     goods_update=goods_update)
-#         Update.objects.create(goods_id=goods_id,
-#                               goods_text='我修改了'+goods_name+'商品',
-#                               goods_user=goods_user)
-#
-#     def create_goods(self,goods_name, goods_id, goods_price, goods_class, goods_stock, goods_update, goods_user):
-#         self.create(goods_name=goods_name,
-#                     goods_id=goods_id,
-#                     goods_price=goods_price,
-#                     goods_class=goods_class,
-#                     goods_stock=goods_stock,
-#                     goods_user=goods_user,
-#                     goods_update=goods_update)
 class User_bill(models.Model):
     water = models.CharField(max_length=2)
     times = models.DateTimeField(default=timezone.now)
@@ -33,13 +14,20 @@ class Users(models.Model):
     user_name = models.CharField(max_length=10)
     user_account = models.CharField(max_length=6)
     user_password = models.CharField(max_length=200)
-    user_question = models.CharField(max_length=50)
-    user_answer = models.CharField(max_length=50)
+    user_question = models.CharField(max_length=50, default='1+1=？')
+    user_answer = models.CharField(max_length=50, default='2')
     user_RMB = models.DecimalField(max_digits=60, decimal_places=2, default=0)
     user_time = models.DateTimeField(default=timezone.now)
     user_home = models.CharField(max_length=40, default='')
     user_income = models.DecimalField(max_digits=60, decimal_places=2, default=0)
     user_expend = models.DecimalField(max_digits=60, decimal_places=2, default=0)
+    user_img = models.CharField(max_length=200)
+
+    def default_img(self):
+        # 头像未上传则使用默认头像
+        if not self.user_img:
+            return 'sop/img/logo.png'
+        return self.user_img
 
 
 class Goods(models.Model):
@@ -49,11 +37,12 @@ class Goods(models.Model):
     goods_class = models.CharField(max_length=10)
     goods_stock = models.IntegerField(default=99)
     goods_time = models.DateTimeField(default=timezone.now)
-    goods_update = models.DateField('修改时间')
+    goods_update = models.DateField('修改时间', default=timezone.now)
     goods_user = models.ForeignKey(Users, on_delete=models.CASCADE)
     goods_state = models.CharField(max_length=3, default='未上架')
     goods_delete = models.CharField(max_length=3, default='0')
     goods_address = models.CharField(max_length=40, default='北京')
+    goods_img = models.CharField(max_length=200)
 
 
 class Update(models.Model):

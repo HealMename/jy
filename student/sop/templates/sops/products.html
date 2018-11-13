@@ -1,15 +1,17 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>商品列表</title>
 	{% load static %}
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="{% static 'sop/css/myresponsee.css' %}">
 	<link rel="stylesheet" href="{% static 'sop/css/style.css'%}">
 	<!--Favicon-->
-	<link rel="shortcut icon" href="{% static 'sop/img/favicon.ico'%}" type="image/x-icon">
-	<link rel="icon" href="{% static 'sop/img/favicon.ico'%}" type="image/x-icon">
+	<link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
+
+
+
     <!-- Responsive -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,23 +23,7 @@
 <body class="size-1140">
 
 <!-- HIDDEN PRODUCTS MENU START -->
-<nav id="main-nav">
-	<ul>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Facial Wash</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Exflotiate Scrub</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Natural Skin Care</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Facial Toner</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Moisturizing Cream</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Anti Wrinkle Cream</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Sun Protection</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Hand Cream</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Hair Removing Cream</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Foot Cream</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Under Arm Protection</span></a></li>
-		<li><a href="products.html" class="hvr-sweep-to-bottom"><span>Slimming Cream</span></a></li>
-	</ul>
-	<a href="#0" class="hidden-menu-close">Close<span></span></a>
-</nav>
+
 <!-- HIDDEN PRODUCTS MENU END -->
 
 <!-- |||||||||||||||||| page start ||||||||||||||||||| -->
@@ -65,9 +51,11 @@
 			<div class="l-6 hide-s hide-m">
 				<div class="right">
 					<ul class="topbar-menu">
-						{% if user %}
+						{% if user_id %}
+							<li><a href="{% url 'sop:add_goods' %}">上架商品</a></li>
+							<li><a href="{% url 'sop:ll' %}">商品管理</a></li>
 							<li><a href="{% url 'sop:homes' %}">退出登录</a></li>
-							<li><a href="{% url 'sop:user_xx' %}">{{user.user_name}}</a></li>
+							<li><a href="{% url 'sop:user_xx' %}">{{user_id.user_name}}</a></li>
 						{% else %}
 							<li><a href="{% url 'sop:zc' %}">注册</a></li>
 							<li><a href="{% url 'sop:login' %}">登录</a></li>
@@ -94,11 +82,8 @@
 				<a class="nav-text"></a>
 				<ul class="right chevron">
 					<li><a class="index.html" href="{% url 'sop:index' %}">首页</a></li>
-					<li><a href="">关于我们</a></li>
-					<li><a href="">联系我们</a></li>
 					<li><a href="{% url 'sop:shop'%}">商品列表</a></li>
 					<li><a href="{% url 'sop:show_cart' %}">购物车</a></li>
-					<li><a href="">登录日志</a></li>
 				</ul>
 			</div>
 
@@ -113,8 +98,11 @@
 	<div class="line">
 	  <div class="margin">
 		<div class="fullwidth">
-		  <h1 class="text-center">我们相信化妆是力量，是你永不暗淡的光！</h1>
-		  <p class="text-center">不求最好但求最贵.</p>
+		  <h1 class="text-center">街上的人偶尔会模仿你小动作</h1>
+		  <p class="text-center">《那是你离开了北京的生活》</p>
+			<p> <a href="{% url 'sop:page'  pages %}" class="text-center" >上一页</a></p>
+	    	<p> <a href="{% url 'sop:next'  pages %}" class="text-center">下一页</a></p>
+			<p class="text-center">{{succeed}}</p>
 		  <hr class="break-small break-center">
 		</div>
 	  </div>
@@ -124,26 +112,29 @@
 	<div class="line">
 		<div class="margin">
 		    <!-- product 1 -->
+			{% for i in goods %}
 			<div class="s-12 m-4 l-3 margin-bottom-30">
 				<div class="margin">
 					<div class="fullwidth">
 						<figure class="imghvr-reveal-down">
-							<img src="{% static 'sop/img/products/1.png'%}">
+							<img src="{% static i.goods_id %}.png" style="width: 282px; height: 270px;">
 							<figcaption>
 								<div class="product-hover-content">
 									<div class="btn-box">
-										<a href="" class="btn">Buy Now</a>
+										<a href="{% url 'sop:cart' i.goods_id pages %}" class="btn">添加到购物车</a>
 									</div>
 								</div>
 							</figcaption>
 						</figure>
 					</div>
 					<div class="fullwidth">
-						<h5>Lorem Ipsum Elit Dolor</h5>
-						<p class="text-center"><span class="strike">$149.00</span> &nbsp;&nbsp; <span class="text-primary">$130.00</span></p>
+						<h5>{{i.goods_name}}</h5>
+						<p class="text-center"><span class="strike">$998</span> &nbsp;&nbsp; <span class="text-primary">${{i.goods_price}}</span></p>
 					</div>
 				</div>
 			</div>
+
+			{% endfor %}
 
 		</div>
 	</div>

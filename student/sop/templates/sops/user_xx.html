@@ -1,8 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>购物车</title>
+	<title>用户信息</title>
 	{% load static %}
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="{% static 'sop/css/myresponsee.css' %}">
@@ -18,8 +18,8 @@
 	<link href="{% static 'sop/css/responsive.css' %}" rel="stylesheet">
 	<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
 	<!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
-</head> 
-  
+</head>
+
 <body class="size-1140">
 
 <!-- HIDDEN PRODUCTS MENU START -->
@@ -45,9 +45,9 @@
 <!-- |||||||||||||||||| page start ||||||||||||||||||| -->
 <!-- ||||| --> <div id="page-main-content"> <!-- ||||| -->
 <!-- ||||||||||||||||||||||||||||||||||||||||||||||||| -->
-	
+
 <!-- HEADER START -->
-<header> 
+<header>
 	<!-- top bar start -->
 	<div id="topbar" class="background-primary">
 		<div class="line">
@@ -82,7 +82,7 @@
 		</div>
 	</div>
 	<!-- top bar end -->
-	
+
 	<!-- navigation and logo -->
 	<nav class="background-dark">
 		<div class="line">
@@ -92,7 +92,7 @@
 				    <a href="{% url 'sop:index' %}" class="logo"><img src="{% static 'sop/img/logo.png'%}" alt=""></a>
 				</div>
 			</div>
-			
+
 			<!-- navigation -->
 			<div class="top-nav s-12 m-12 l-9">
 				<a class="nav-text"></a>
@@ -103,22 +103,21 @@
 
 				</ul>
 			</div>
-			
+
 		</div>
 	</nav>
 </header>
 <!-- HEADER END -->
 
 <!-- PAGE CONTENT START -->
-<div class="section"> 
+<div class="section">
 
 	<!-- heading and description -->
 	<div class="line">
 		<div class="fullwidth margin-bottom-20">
 			{% if user_id %}
-			<h1 class="text-center">我的购物车</h1>
+			<h1 class="text-center">我的信息</h1>
 			<p class="text-center">这命运的天，让我们遇见.</p>
-			<p class="text-center">{{succeed}}</p>
 			<hr class="break-small break-center">
 			{% else%}
 			<h1 class="text-center">您还没有登录呢</h1>
@@ -133,26 +132,26 @@
 
 		<!-- cart left -->
 		<div class="s-12 m-12 l-8">
-			{% if cart %}
-				{% for i in cart %}
+
 				<!-- item 1 -->
 				<div class="fullwidth cart-item">
 					<div class="s-12 m-4 l-3 cart-item-image">
-						<img src="{% static i.goods_id %}.png" alt="">
+						<img src="{% static user_id.default_img %}" alt="">
 					</div>
 					<div class="s-12 m-8 l-9 cart-item-detail">
-						<h4>{{i.goods_name}}</h4>
+						<h4>昵称：{{user_id.user_name}}</h4>
+
 						<p>
-						价格: <span class="strike">原价 $150</span> 现价 {{i.goods_price}}<br />
-						数量: {{i.goods_x}}<br />
+						    账号：{{user_id.user_account}} <br>
+                            密保：{{user_id.user_question}} <br>
+                            余额：{{user_id.user_RMB}} <br>
+							ID：{{user_id.id}}
 						</p>
-						<p><a href="{% url 'sop:del_goods' i.goods_id %}" class="remove-item">移除购物车</a></p>
+
 					</div>
 				</div>
-				{% endfor %}
-			{% else %}
-				<h1>购物车已清空</h1>
-			{% endif %}
+
+
 
 
 
@@ -160,21 +159,30 @@
 
 		<!-- cart right -->
 		<div class="s-12 m-12 l-4 margin-m-top-60 padding border-1">
-
-			<p class="margin-bottom text-size-16">用户: <span class="right">{{user_id.user_name}}</span></p>
-			<p class="margin-bottom text-size-16">余额: <span class="right">{{user_id.user_RMB}}</span></p>
-			{% if all_rmb %}
-			<p class="margin-bottom text-size-16">合计: <span class="right">{{all_rmb}}</span></p>
-			{% else %}
-			<p class="margin-bottom text-size-16">合计: <span class="right">0</span></p>
+			{% if succeed %}
+			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:add_goods' %}">{{succeed}}</a></span></p>
 			{% endif%}
-			<a href="{% url 'sop:close' %}" class="button fullwidth">结算</a>
+
+
+			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:update_question' %}">添加密保</a></span></p>
+			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:show_login' %}">登录记录</a></span></p>
+			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:yue' %}">充值</a></span></p>
+			<p class="margin-bottom text-size-16">
+			<form action="{% url 'sop:user_head' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+			<input type="file" name="user_img">
+			<input type="submit" value="更换头像" class="right">
+			</form>
+			<span class="right">
+
+			</span></p>
+
+			<a class="button fullwidth">用户设置</a>
 		</div>
-		
+
 	</div>
 </div>
 <!-- PAGE CONTENT END -->
-    
+
 <!-- FOOTER START -->
 
 <!-- FOOTER END -->
@@ -188,9 +196,11 @@
 <script type="text/javascript" src="{% static 'sop/js/jquery-ui.min.js'%}"></script>
 <script type="text/javascript" src="{% static 'sop/owl-carousel/owl.carousel.js'%}"></script>
 <script type="text/javascript" src="{% static 'sop/js/custom.js'%}"></script>
-   
-   
-   
-   
+
+
+
+
+	
+	
 </body>
 </html>
