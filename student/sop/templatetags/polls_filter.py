@@ -8,3 +8,8 @@ def change_str(value):
         return value
     return "《" + value+"》"
 
+
+@register.inclusion_tag("tages/page.html")
+def page_next(goods, page):
+    return {'goods': goods[(page-1)*4:page*4], 'pages': page}
+

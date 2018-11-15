@@ -9,6 +9,7 @@ import os
 from django.conf import settings
 from .forms import Login, Register, Yue, Add_goods, Carts, UserImg
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 
 def handle(user_id, user_head, ext):
@@ -35,20 +36,28 @@ def upload(request):
 
 
 def home(request):
+    context = dict()
+    user = Users.objects.get(pk=3)
+    goods = Goods.objects.filter(goods_user=user)
+    context['goods'] = goods
+    print(goods)
     if request.session.get('user_id'):
-        user_id = request.session['user_id']
-        user = Users.objects.get(pk=user_id)
-        return render(request, 'sops/index.html', {'user_id': user})
+        user = Users.objects.get(pk=request.session['user_id'])
+        context['user_id'] = user
+        return render(request, 'sops/index.html', context)
     else:
-        return render(request, 'sops/index.html')
+
+        return render(request, 'sops/index.html', context)
 
 
 def homes(request):
-    user_id = request.session['user_id']
-    user = Users.objects.get(pk=user_id)
-    Logins.objects.create(logout='退出', user=user)
-    del request.session['user_id']
-    return HttpResponseRedirect('/sop/')
+    if request.session.get('user_id'):
+        user_id = request.session['user_id']
+        user = Users.objects.get(pk=user_id)
+        Logins.objects.create(logout='退出', user=user)
+        del request.session['user_id']
+        return HttpResponseRedirect('/sop/index/')
+    return HttpResponseRedirect('/sop/index/')
 
 
 def zc(request):
@@ -75,7 +84,7 @@ def register(request, code):
                 request.session['user_id'] = user.id
                 request.session.set_expiry(0)
                 Logins.objects.create(logout='登录', user=user)
-                return render(request, 'sops/index.html', {'user_id': user})
+                return HttpResponseRedirect(reverse('sop:home'))
             else:
                 code = str(random.randint(0, 9)) + str(chr(random.randrange(65, 90)) * 3)
                 return render(request, 'sops/register.html', {'code': code, 'nots': '该账号已存在', 'form': form})
@@ -109,7 +118,7 @@ def lo(request, code):
                     request.session['user_id'] = users.id
                     request.session.set_expiry(0)
                     print(request.session['user_id'])
-                    return render(request, 'sops/index.html', {'user_id': users})
+                    return HttpResponseRedirect(reverse('sop:home'))
                 else:
                     code = str(random.randint(0, 9)) + str(chr(random.randrange(65, 90)) * 3)
                     return render(request, 'sops/login.html', {'code': code, 'not_code': '账号或密码不存在\n 请重试！'})
@@ -174,6 +183,7 @@ def yue(request):
             user_RMB = int(request.POST['user_RMB'])
             Users.objects.filter(pk=user.id).update(user_RMB=F('user_RMB')+user_RMB)
             user = Users.objects.get(pk=user.id)
+            Admins.objects.create(water='收入', detail=user_RMB)
             return render(request, 'sops/yue.html', {'user_id': user, 'succeed': '充值成功', 'form': form})
 
     return render(request, 'sops/yue.html', {'user_id': user, 'form': form, 'succeed': '正在充值'})
@@ -199,7 +209,7 @@ def add_goods(request):
 def handle_uploaded_file(file_obj, goods_id, ext):
 
     filename = "%s%s" % (goods_id, ext)
-    file_path = os.path.join(settings.BASE_DIR, 'sop/static/', filename)
+    file_path = os.path.join(settings.BASE_DIR, 'sop/static/goods_img', filename)
     print(file_path)
     with open(file_path, 'wb+') as f:
         for chunk in file_obj.chunks():
@@ -223,11 +233,15 @@ def add_goods_add(request):
                                      goods_user=user,
                                      goods_update=timezone.now(),
                                      )
-        for file_key in files:
-            file_obj = files[file_key]
-            ext = os.path.splitext(file_obj.name)[1]
-            Goods.objects.filter(pk=goods.goods_id).update(goods_img='static/goods_img/'+goods.goods_id+ext)
-            handle_uploaded_file(file_obj, goods.goods_id, ext)
+
+        file_obj = files['goods_img']
+        file_obj_2 = files['goods_music']
+        ext = os.path.splitext(file_obj.name)[1]
+        ext_2 = os.path.splitext(file_obj_2.name)[1]
+        Goods.objects.filter(pk=goods.goods_id).update(goods_img='goods_img/'+goods.goods_id+ext,
+                                                       goods_music='goods_img/'+goods.goods_id+ext_2)
+        handle_uploaded_file(file_obj, goods.goods_id, ext)
+        handle_uploaded_file(file_obj_2, goods.goods_id, ext_2)
 
         print(goods.goods_id)
         Update.objects.create(goods_id=goods.goods_id,
@@ -336,13 +350,6 @@ def update(request):
                                                        'qcs': '请重试'})
 
 
-def all_goods(request):
-    page = 1
-    goods = Goods.objects.exclude(goods_state='未上架')[(page-1)*4:page*4]
-    return render(request, 'sop/all_goods.html', {'all_goods': goods,
-                                                  'page': page})
-
-
 def goods_cl(request, page):
     page = int(page)
     goods = Goods.objects.filter(goods_class=request.POST['goods_class'],
@@ -382,88 +389,32 @@ def cancel(request, goods_id):
                                                        'user_goods': goods})
 
 
-def shops(request, pages):
-    if request.session.get('user_id'):
-        user_id = request.session['user_id']
-        form = Carts()
-        pages = int(pages)
-        user = Users.objects.get(pk=user_id)
-        goods = Goods.objects.get(goods_id=request.POST['goods_id'])
-        all_goods = Goods.objects.filter(goods_state='已上架')[(pages-1)*4:pages*4]
-        if int(request.POST['stock']) <= goods.goods_stock:
-            if user.user_RMB > goods.goods_price:
-                if not Order.objects.filter(goods_id=goods.goods_id).exists():
-                    Users.objects.filter(pk=user_id).update(user_RMB=user.user_RMB - goods.goods_price)
-                    Goods.objects.filter(pk=goods.goods_id).update(goods_stock=F('goods_stock') - request.POST['stock'])
-                    Order.objects.create(order_user=user,
-                                         goods_name=goods.goods_name,
-                                         goods_id=goods.goods_id,
-                                         goods_stock=request.POST['stock'],
-                                         goods_address=goods.goods_address,
-                                         user_home=user.user_home)
-                    Goods.objects.filter(goods_stock__lt=1).update(goods_state='未上架')
-                    goods = Goods.objects.filter(goods_state='已上架')
-                    return render(request, 'sop/shop.html', {'user': user,
-                                                             'goods': goods,
-                                                             'pages': pages,
-                                                             'succeed': '成功购买！', 'form': form})
-
-                else:
-                    goods = Goods.objects.get(pk=goods.goods_id)
-                    Goods.objects.filter(goods_stock__lt=1).update(goods_state='未上架')
-                    all_goods = Goods.objects.filter(goods_state='已上架')
-                    Deal_goods.objects.filter(goods_id=goods.goods_id).update(goods_stock=F('goods_stock')+int(request.POST['stock']))
-                    Users.objects.filter(pk=user_id).update(user_RMB=user.user_RMB - goods.goods_price)
-                    Goods.objects.filter(pk=goods.goods_id).update(goods_stock=F('goods_stock') - request.POST['stock'])
-                    Order.objects.filter(goods_id=goods.goods_id).update(goods_stock=F('goods_stock')+request.POST['stock'])
-                    return render(request, 'sop/shop.html', {'user': user,
-                                                             'goods': all_goods,
-                                                             'pages': pages,
-                                                             'succeed': '成功购买！', 'form': form})
-            else:
-                return render(request, 'sop/shop.html', {'user': user,
-                                                         'goods': all_goods,
-                                                         'pages': pages,
-                                                         'succeed': '余额不足请充值！', 'form': form})
-        else:
-            return render(request, 'sop/shop.html', {'user': user,
-                                                     'goods': all_goods,
-                                                     'pages': pages,
-                                                     'succeed': '我们没有那么多库存了！', 'form': form})
-
-    else:
-        return render(request, 'sops/index.html')
-
-
-def deal(request):
-    user_id = request.session['user_id']
-    user = Users.objects.get(pk=user_id)
-    return render(request, 'sop/deal.html', {'user': user})
-
-
 def goods_record(request):
-    user_id = request.session['user_id']
-    pages = 1
-    user = Users.objects.get(pk=user_id)
-    goodsr = Deal_goods.objects.filter(goods_user=user)
-    goods = Deal_goods.objects.filter(goods_user=user)[0:4]
-    if goodsr:
-        a = 0
-        print(goodsr)
-        list_1 = []
-        for i in goodsr:
-            a = a + 1
-            e = int(i.goods_price) * i.goods_stock
-            list_1.append(e)
-            if a == goodsr.count():
-                return render(request, 'sop/goods_record.html', {'goods': goods,
-                                                                 'user': user,
-                                                                 'all_rmb': sum(list_1),
-                                                                 'pages': pages,
-                                                                 })
+    user_id = request.session.get('user_id')
+    if user_id:
+        pages = 1
+        user = Users.objects.get(pk=user_id)
+        goodsr = Deal_goods.objects.filter(goods_user=user)
+        goods = Deal_goods.objects.filter(goods_user=user)[0:4]
+        if goodsr:
+            a = 0
+            print(goodsr)
+            list_1 = []
+            for i in goodsr:
+                a = a + 1
+                e = int(i.goods_price) * i.goods_stock
+                list_1.append(e)
+                if a == goodsr.count():
+                    return render(request, 'sop/goods_record.html', {'goods': goods,
+                                                                     'user': user,
+                                                                     'all_rmb': sum(list_1),
+                                                                     'pages': pages,
+                                                                     })
 
+        else:
+            return render(request, 'sop/goods_record.html', {'goods': goods, 'user': user, 'succeed': '您还没有购买过任何商品呢'})
     else:
-        return render(request, 'sop/goods_record.html', {'goods': goods, 'user': user, 'succeed': '您还没有购买过任何商品呢'})
+        return HttpResponseRedirect(reverse('sop:home'))
 
 
 def record_pages(request, pages):
@@ -540,38 +491,35 @@ def record_next(request, pages):
                                                                  'pages': pages})
 
 
-def cart(request, goods_id, page):
-    user_id = request.session['user_id']
-    user = Users.objects.get(pk=user_id)
-    goods = Goods.objects.get(pk=goods_id)
-    page = int(page)
-    goods_all = Goods.objects.filter(goods_state='已上架')[(page-1)*4:page*4]
-    if 1 < goods.goods_stock:
-        if not Cart.objects.filter(goods_id=goods_id).exists():
-            Cart.objects.create(goods_name=goods.goods_name,
-                                goods_price=goods.goods_price,
-                                goods_x=1,
-                                goods_user=user,
-                                goods_id=goods.goods_id)
-            goods.goods_stock = F('goods_stock') + 1
-            goods.save()
-            return render(request, 'sops/products.html', {'user_id': user,
-                                                          'goods': goods_all,
-                                                          'succeed': '添加成功！', 'pages':page})
+def cart(request, goods_id):
+    if request.session.get('user_id'):
+        user_id = request.session['user_id']
+        user = Users.objects.get(pk=user_id)
+        goods = Goods.objects.get(pk=goods_id)
+        if 1 < goods.goods_stock:
+            if not Cart.objects.filter(goods_id=goods_id).filter(goods_user=user).exists():
+                Cart.objects.create(goods_name=goods.goods_name,
+                                    goods_price=goods.goods_price,
+                                    goods_x=1,
+                                    goods_user=user,
+                                    goods_id=goods.goods_id,
+                                    goods_img=goods.goods_img)
+
+                goods.save()
+                return render(request, 'sops/xx.html', {'succeed': '添加成功！'})
+            else:
+                Cart.objects.filter(goods_id=goods_id).update(goods_x=F('goods_x')+1)
+                return render(request, 'sops/xx.html', {'succeed': '添加成功！'})
         else:
-            Cart.objects.filter(goods_id=goods_id).update(goods_x=F('goods_x')+1)
-            return render(request, 'sops/products.html', {'user_id': user,
-                                                          'goods': goods_all,
-                                                          'succeed': '添加成功！', 'pages': page})
+            return render(request, 'sops/xx.html', {'succeed': '库存不足'})
     else:
-        return render(request, 'sops/products.html', {'user_id': user,
-                                                      'goods': goods_all,
-                                                      'succeed': '库存不足'})
+        return HttpResponseRedirect(reverse('sop:show_cart'))
 
 
 def show_cart(request):
     if request.session.get('user_id'):
         user_id = request.session['user_id']
+        print(user_id)
         user = Users.objects.get(pk=user_id)
         cart = Cart.objects.filter(goods_user=user)
         if cart:
@@ -594,43 +542,54 @@ def show_cart(request):
 
 
 def close(request):
-    user_id = request.session['user_id']
-    user = Users.objects.get(pk=user_id)
-    cart = Cart.objects.filter(goods_user=user)
-    a = 0
-    if cart:
-        for i in cart:
-            a = a+1
-            goods = Goods.objects.get(pk=i.goods_id)
-            r = int(i.goods_price) * i.goods_x
-            if goods.goods_stock > i.goods_x:
-                if user.user_RMB > r:
-                    Goods.objects.filter(pk=i.goods_id).update(goods_stock=F('goods_stock')-i.goods_x)
-                    Users.objects.filter(pk=user_id).update(user_RMB=user.user_RMB-r)
-                    Deal_goods.objects.create(goods_name=i.goods_name,
-                                              goods_user=user,
-                                              goods_id=i.goods_id,
-                                              goods_price=i.goods_price,
-                                              goods_stock=i.goods_x,
-                                              )
-                    if a == cart.count():
-                        Cart.objects.filter(goods_user=user).delete()
+    if request.session.get('user_id'):
+        user_id = request.session['user_id']
+        user = Users.objects.get(pk=user_id)
+        cart = Cart.objects.filter(goods_user=user)
+        a = 0
+        if cart:
+            for i in cart:
+                a = a+1
+                goods = Goods.objects.get(pk=i.goods_id)
+                r = int(i.goods_price) * i.goods_x
+                if goods.goods_stock > i.goods_x:
+                    if user.user_RMB > r:
+                        Goods.objects.filter(pk=i.goods_id).update(goods_stock=F('goods_stock')-i.goods_x)
+                        Users.objects.filter(pk=user_id).update(user_RMB=user.user_RMB-r)
+                        Deal_goods.objects.create(goods_name=i.goods_name,
+                                                  goods_user=user,
+                                                  goods_id=i.goods_id,
+                                                  goods_price=i.goods_price,
+                                                  goods_stock=i.goods_x,
+                                                  )
+                        Users.objects.filter(goods=goods).update(user_RMB=F('user_RMB') + i.goods_price*i.goods_x)
+                        seller = Users.objects.get(goods=goods)
+                        User_bill.objects.create(water='收入',
+                                                 detail=i.goods_price*i.goods_x,
+                                                 user_name=seller)
+                        User_bill.objects.create(water='支出',
+                                                 detail=i.goods_price*i.goods_x,
+                                                 user_name=user)
+                        if a == cart.count():
+                            Cart.objects.filter(goods_user=user).delete()
+                            user = Users.objects.get(pk=user.id)
+                            return render(request, 'sops/cart.html', {'user_id': user,
+                                                                      'succeed': '购物车已清空'})
 
-                        return render(request, 'sops/cart.html', {'user_id': user,
-                                                                  'succeed': '购物车已清空'})
-
+                    else:
+                        cart = Cart.objects.filter(goods_user=user)
+                        return render(request, 'sops/cart.html', {'cart': cart,
+                                                                  'user_id': user,
+                                                                  'succeed': '余额不足请充值!'})
                 else:
                     cart = Cart.objects.filter(goods_user=user)
-                    return render(request, 'sops/cart.html', {'cart': cart,
-                                                              'user_id': user,
-                                                              'succeed': '余额不足请充值!'})
-            else:
-                cart = Cart.objects.filter(goods_user=user)
-                return render(request, 'sops/cart.html', {'user_id': user, 'cart': cart,
-                                                          'succeed': '库存不足了！'})
+                    return render(request, 'sops/cart.html', {'user_id': user, 'cart': cart,
+                                                              'succeed': '库存不足了！'})
+        else:
+            return render(request, 'sops/cart.html', {'user_id': user,
+                                                      'succeed': '这里空空如也,快去选择你喜欢的商品把！'})
     else:
-        return render(request, 'sops/cart.html', {'user_id': user,
-                                                  'succeed': '这里空空如也,快去选择你喜欢的商品把！'})
+        return HttpResponseRedirect(reverse('sop:show_cart'))
 
 
 def del_goods(request, goods_id):
@@ -653,21 +612,28 @@ def del_all(request):
 
 
 def page(request, pages):
-    user_id = request.session['user_id']
-
     pages = int(pages)
-    user = Users.objects.get(pk=user_id)
-    if pages > 1:
-        pages = int(pages) - 1
-        goods = Goods.objects.filter(goods_state='已上架')[(pages - 1) * 4: pages * 4]
-        return render(request, 'sops/products.html', {'user_id': user,
-                                                      'goods': goods, 'pages': pages
-                                                 })
+    if request.session.get('user_id'):
+        user_id = request.session['user_id']
+
+
+        user = Users.objects.get(pk=user_id)
+        if pages > 1:
+            pages = int(pages) - 1
+            goods = Goods.objects.filter(goods_state='已上架')[(pages - 1) * 4: pages * 4]
+            return render(request, 'tages/page.html', {'user_id': user,
+                                                          'goods': goods, 'pages': pages
+                                                     })
+        else:
+            goods = Goods.objects.filter(goods_state='已上架')[0: 4]
+            return render(request, 'tages/page.html', {'user_id': user,
+                                                          'goods': goods, 'pages': pages
+                                                     })
     else:
         goods = Goods.objects.filter(goods_state='已上架')[0: 4]
-        return render(request, 'sops/products.html', {'user_id': user,
-                                                      'goods': goods, 'pages': pages
-                                                 })
+        return render(request, 'tages/page.html', {'goods': goods, 'pages': pages
+                                                   })
+
 
 
 def shop(request):
@@ -684,22 +650,32 @@ def shop(request):
 
 
 def next(request, pages):
-    user_id = request.session['user_id']
-
-    pages = int(pages)
-    user = Users.objects.get(pk=user_id)
     goods_all = Goods.objects.filter(goods_state='已上架')
-    print(goods_all.count()/4)
-    if pages < goods_all.count() / 4:
+    pages = int(pages)
+    if request.session.get('user_id'):
+        user_id = request.session['user_id']
+
+
+        user = Users.objects.get(pk=user_id)
+
+        print(goods_all.count()/4)
+        if pages < goods_all.count() / 4:
+            pages = pages + 1
+            goods = Goods.objects.filter(goods_state='已上架')[(pages - 1) * 4: pages * 4]
+            return render(request, 'tages/page.html', {'user_id': user,
+                                                          'goods': goods, 'pages': pages})
+        else:
+            goods = Goods.objects.filter(goods_state='已上架')[(pages - 1) * 4: pages * 4]
+            return render(request, 'tages/page.html', {'user_id': user,
+                                                          'pages': pages,
+                                                          'goods': goods})
+    else:
         pages = pages + 1
         goods = Goods.objects.filter(goods_state='已上架')[(pages - 1) * 4: pages * 4]
-        return render(request, 'sops/products.html', {'user_id': user,
-                                                      'goods': goods, 'pages': pages})
-    else:
-        goods = Goods.objects.filter(goods_state='已上架')[(pages - 1) * 4: pages * 4]
-        return render(request, 'sops/products.html', {'user_id': user,
-                                                      'pages': pages,
-                                                      'goods': goods})
+        return render(request, 'tages/page.html', {
+                                                   'pages': pages,
+                                                   'goods': goods})
+
 
 
 def show_login(request):

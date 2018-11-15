@@ -70,6 +70,7 @@
                             <li><a href="{% url 'sop:add_goods' %}">上架商品</a></li>
 							<li><a href="{% url 'sop:ll' %}">商品管理</a></li>
 							<li><a href="{% url 'sop:homes' %}">退出登录</a></li>
+							<li><a href="{% url 'sop:show_order' %}">我的订单</a></li>
 							<li><a href="{% url 'sop:user_xx' %}">{{user_id.user_name}}</a></li>
 						{% else %}
 							<li><a href="{% url 'sop:zc' %}">注册</a></li>
@@ -137,30 +138,42 @@
 				<!-- item 1 -->
 				<div class="fullwidth cart-item">
 					<div class="s-12 m-4 l-3 cart-item-image">
-						<img src="{% static goods.goods_id %}.png" alt="">
+						<img src="{% static goods.goods_img %}" alt="">
 					</div>
 					<div class="s-12 m-8 l-9 cart-item-detail">
 						<h4>{{goods.goods_name}}</h4>
 						<p>
-						 <span class="strike">原价 $150</span> 现价 {{goods.goods_price}}<br />
+							 <span class="strike">原价 $150</span> 现价 {{goods.goods_price}}<br />
 
-                            编号: {{goods.goods_id}} <br>
-                            歌手: {{goods.goods_class}} <br>
+								编号: {{goods.goods_id}} <br>
+								歌手: {{goods.goods_class}} <br>
 
-                            库存: {{goods.goods_stock}} <br>
-                            发布人id: {{goods.goods_user_id}} <br>
-                            发布时间: {{goods.goods_time|date:'Y-m-d H:i:s' }} <br>
-                            修改时间: {{goods.goods_update|date:'Y-m-d' }} <br>
-                            上架信息： {{goods.goods_state}}
-							{{loser}}
-							{{succeed}}
-							{{form.goods_name.error}}
-							{{form.goods_price.error}}
-							{{form.goods_stock.error}}
+								库存: {{goods.goods_stock}} <br>
+								发布人id: {{goods.goods_user_id}} <br>
+								发布时间: {{goods.goods_time|date:'Y-m-d H:i:s' }} <br>
+								修改时间: {{goods.goods_update|date:'Y-m-d' }} <br>
+								上架信息： {{goods.goods_state}}
+								{{loser}}
+								{{succeed}}
+								<a href="{% url 'sop:goods_lyric' goods.goods_id%}">修改商品详情</a>
+								<br>
+							{% if forms %}
+							<form action="{% url 'sop:goods_lyric' goods.goods_id %}" method="post">
+								{% csrf_token %}
+								<table>
+									{{forms}}
 
+									</table>
+								<input type="submit" value="提交">
+							</form>
+							{% endif %}
 						</p>
-                        <p>
 
+                        <p>
+							{{goods_de.goods_details}}
+							<br>
+							{{goods_de.goods_lyric}}
+						</p>
 
 					</div>
 				</div>
@@ -191,6 +204,7 @@
                                 <option value="冷鸢">冷鸢</option>
                                 <option value="邓紫棋">邓紫棋</option>
                                 <option value="张紫豪">张紫豪</option>
+                                <option value="房东的猫">房东的猫</option>
                             	</select></span></p>
 
                 <input type="submit" style="height: 60px; background-color: rgba(0,0,0,0); border: 1px black;" class="button fullwidth" value="提交">

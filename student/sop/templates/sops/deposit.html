@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>购物车</title>
+	{% load static %}
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="{% static 'sop/css/myresponsee.css' %}">
+	<link rel="stylesheet" href="{% static 'sop/css/style.css'%}">
+	<!--Favicon-->
+	<link rel="shortcut icon" href="{% static 'sop/xxx.ico' %}" type="image/x-icon" />
+
+
+
+    <!-- Responsive -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="{% static 'sop/css/responsive.css' %}" rel="stylesheet">
+	<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
+	<!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
+</head>
+
+<body class="size-1140">
+
+<!-- HIDDEN PRODUCTS MENU START -->
+
+<!-- HIDDEN PRODUCTS MENU END -->
+
+<!-- |||||||||||||||||| page start ||||||||||||||||||| -->
+<!-- ||||| --> <div id="page-main-content"> <!-- ||||| -->
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+<!-- HEADER START -->
+<header>
+	<!-- top bar start -->
+	<div id="topbar" class="background-primary">
+		<div class="line">
+		    <!-- social icons -->
+			<div class="s-12 m-12 l-6">
+				<ul>
+				  <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+				  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+				  <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+				  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+				  <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+				  <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+				  <li class="hide-s"><a href="#"><i class="fa fa-pinterest"></i></a></li>
+				</ul>
+			</div>
+			<!-- contact details -->
+			<div class="l-6 hide-s hide-m">
+				<div class="right">
+					<ul class="topbar-menu">
+						{% if user_id %}
+							<li><a href="{% url 'sop:add_goods' %}">上架商品</a></li>
+							<li><a href="{% url 'sop:ll' %}">商品管理</a></li>
+							<li><a href="{% url 'sop:homes' %}">退出登录</a></li>
+							<li><a href="{% url 'sop:show_order' %}">我的订单</a></li>
+							<li><a href="{% url 'sop:user_xx' %}">{{user_id.user_name}}</a></li>
+						{% else %}
+							<li><a href="{% url 'sop:zc' %}">注册</a></li>
+							<li><a href="{% url 'sop:login' %}">登录</a></li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- top bar end -->
+
+	<!-- navigation and logo -->
+	<nav class="background-dark">
+		<div class="line">
+		    <!-- logo -->
+			<div class="s-12 l-3">
+				<div class="fullwidth">
+				    <a href="{% url 'sop:index' %}" class="logo"><img src="{% static 'sop/img/logo.png'%}" alt=""></a>
+				</div>
+			</div>
+
+			<!-- navigation -->
+			<div class="top-nav s-12 m-12 l-9">
+				<a class="nav-text"></a>
+				<ul class="right chevron">
+					<li><a class="index.html" href="{% url 'sop:index' %}">首页</a></li>
+					<li><a href="{% url 'sop:shop'%}">商品列表</a></li>
+					<li><a href="{% url 'sop:show_cart' %}">购物车</a></li>
+
+				</ul>
+			</div>
+
+		</div>
+	</nav>
+</header>
+<!-- HEADER END -->
+
+<!-- PAGE CONTENT START -->
+<div class="section">
+
+	<!-- heading and description -->
+	<div class="line">
+		<div class="fullwidth margin-bottom-20">
+			{% if user_id %}
+			<h1 class="text-center">我的信息</h1>
+			<p class="text-center">这命运的天，让我们遇见.</p>
+			<hr class="break-small break-center">
+			{% else%}
+			<h1 class="text-center">您还没有登录呢</h1>
+			<p class="text-center">这命运的天，让我们遇见.</p>
+			<hr class="break-small break-center">
+			{% endif %}
+		</div>
+	</div>
+
+	<!-- cart left and right -->
+	<div class="line">
+
+		<!-- cart left -->
+		<div class="s-12 m-12 l-8">
+
+				<!-- item 1 -->
+				<div class="fullwidth cart-item">
+					<div class="s-12 m-4 l-3 cart-item-image">
+						<img src="{% static user_id.default_img %}" alt="">
+					</div>
+					<div class="s-12 m-8 l-9 cart-item-detail">
+						<h4>昵称：{{user_id.user_name}}</h4>
+
+						<p>
+                        <form action="{% url 'sop:deposit' %}" method="post">
+                            {% csrf_token %}
+                            {{form}}
+                            {{form.error}}
+                            <input type="submit" value="提现">
+                        </form>
+                        {{succeed}}
+
+						</p>
+
+					</div>
+				</div>
+
+
+
+
+		</div>
+
+		<!-- cart right -->
+		<div class="s-12 m-12 l-4 margin-m-top-60 padding border-1">
+			{% if succeed %}
+			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:add_goods' %}">{{succeed}}</a></span></p>
+			{% endif%}
+
+
+			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:add_goods' %}">上架商品</a></span></p>
+			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:ll' %}">商品管理</a></span></p>
+			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:homes' %}">退出登录</a></span></p>
+			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:update_question' %}">添加密保</a></span></p>
+			<p class="margin-bottom text-size-16">
+			<form action="{% url 'sop:user_head' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+			<input type="file" name="user_img">
+			<input type="submit" value="更换头像" class="right">
+			</form>
+			<span class="right">
+
+			</span></p>
+
+			<a class="button fullwidth">用户设置</a>
+		</div>
+
+	</div>
+</div>
+<!-- PAGE CONTENT END -->
+
+<!-- FOOTER START -->
+
+<!-- FOOTER END -->
+
+<!-- |||||||||||| page end ||||||||||||| -->
+<!-- ||||||||| --> </div> <!-- ||||||||| -->
+<!-- |||||||||||| page end ||||||||||||| -->
+
+<!-- jQuery Files -->
+<script type="text/javascript" src="{% static 'sop/js/jquery-3.1.1.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'sop/js/jquery-ui.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'sop/owl-carousel/owl.carousel.js'%}"></script>
+<script type="text/javascript" src="{% static 'sop/js/custom.js'%}"></script>
+
+
+
+
+</body>
+</html>

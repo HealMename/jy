@@ -54,6 +54,7 @@
 							<li><a href="{% url 'sop:add_goods' %}">上架商品</a></li>
 							<li><a href="{% url 'sop:ll' %}">商品管理</a></li>
 							<li><a href="{% url 'sop:homes' %}">退出登录</a></li>
+							<li><a href="{% url 'sop:show_order' %}">我的订单</a></li>
 							<li><a href="{% url 'sop:user_xx' %}">{{user_id.user_name}}</a></li>
 						{% else %}
 							<li><a href="{% url 'sop:zc' %}">注册</a></li>
@@ -72,7 +73,7 @@
 		    <!-- logo -->
 			<div class="s-12 l-3">
 				<div class="fullwidth">
-				    <a href="{% url 'sop:index' %}" class="logo"><img src="{% static 'sop/img/logo.png' %}" alt=""></a>
+				    <a href="{% url 'sop:index' %}" class="logo"><img src="{% static 'sop/img/logo.png' %}"></a>
 				</div>
 			</div>
 
@@ -96,11 +97,12 @@
 <!-- SLIDESHOW START -->
 <div class="carousel-fade-transition owl-carousel carousel-main">
 	<!-- slide 1 -->
+	{% for i in goods %}
 	<div class="item">
 	    <!-- slideshow photo -->
 		<div class="image-box">
 			<div class="image">
-				<img src="{% static 'sop/img/slideshow/slide1.jpg'%}" alt="">
+				<img src="{% static i.goods_img %}" alt="">
 			</div>
 		</div>
 
@@ -108,57 +110,18 @@
 		<div class="carousel-content">
 			<div class="content-center-vertical line">
 				<div class="s-12 m-8 l-7">
-					<h1 class="margin-bottom-10 animated-carousel-element">我该规矩的跳入每个 <br>我好像还记得愿望是什么</h1>
-					<p class="margin-bottom-30 animated-carousel-element slow">《违背的青春》</p>
+					<h1 class="margin-bottom-10 animated-carousel-element">🎵{{i.goods_name}}🎵</h1>
+					<p class="margin-bottom-30 animated-carousel-element slow"></p>
 					<div class="animated-carousel-element">
-						<a href="" class="slideshow-btn">现在购买</a><a href="#" class="slideshow-btn2">查看详情</a>
+						<a href="{% url 'sop:indent_s' i.goods_id %}" class="slideshow-btn">现在购买</a><a href="{% url 'sop:indent' i.goods_id%}" class="slideshow-btn2">查看详情</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="item">
-	    <!-- slideshow photo -->
-		<div class="image-box">
-			<div class="image">
-				<img src="{% static 'sop/img/slideshow/slide3.jpg'%}" alt="">
-			</div>
-		</div>
-		<!-- slideshow content -->
-		<div class="carousel-content">
-			<div class="content-center-vertical line">
-				<div class="s-12 m-8 l-7">
-					<h1 class="margin-bottom-10 animated-carousel-element">你不就像风一样 <br> 触摸时温柔流淌</h1>
-					<p class="margin-bottom-30 animated-carousel-element slow">《像风一样》</p>
-					<div class="animated-carousel-element">
-						<a href="#" class="slideshow-btn">现在购买</a><a href="#" class="slideshow-btn2">查看详情</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	{% endfor %}
 
 	<!-- slide 2 -->
-	<div class="item">
-	    <!-- slideshow photo -->
-	    <div class="image-box">
-			<div class="image">
-				<img src="{% static 'sop/img/slideshow/slide2.jpg' %}" alt="">
-			</div>
-		</div>
-		<!-- slideshow content -->
-		<div class="carousel-content">
-			<div class="content-center-vertical line">
-				<div class="s-12 m-8 l-7">
-					<h1 class="margin-bottom-10 animated-carousel-element">雪下的那么深 <br>下的那么认真</h1>
-					<p class="margin-bottom-30 animated-carousel-element slow">《认真的雪》</p>
-					<div class="animated-carousel-element">
-						<a href="#" class="slideshow-btn">现在购买</a><a href="#" class="slideshow-btn2">查看详情</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 <!-- SLIDESHOW END -->
 

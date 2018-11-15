@@ -71,7 +71,7 @@ class Add_goods(forms.Form):
                    min_value='商品价格太低了！！',
                    required='商品价格不能为空')
     goods_i = dict(required='请选择一张商品图片')
-    goods_name = forms.CharField(max_length=10,
+    goods_name = forms.CharField(max_length=50,
                                  min_length=1,
                                  label='商品名称',
                                  required=True, error_messages=goods_m)
@@ -86,11 +86,8 @@ class Add_goods(forms.Form):
     goods_img = forms.ImageField(required=True, error_messages=goods_i)
 
 
-
 class Carts(forms.Form):
-    stock = forms.DecimalField(max_value=1000,
-                               min_value=1,
-                               required=True)
+    rmb = forms.DecimalField(max_value=10000, min_value=1, required=True)
 
 
 class UpdateQuestion(forms.Form):
@@ -125,3 +122,31 @@ class UpdateGoods(forms.Form):
                                      min_value=1,
                                      required=True,
                                      label='商品库存', error_messages=goods_st)
+
+
+class Indent(forms.Form):
+    goods_x = forms.IntegerField(max_value=20,
+                                 min_value=1,
+                                 required=True, label='购买数量')
+    user_home = forms.CharField(max_length=200,
+                                min_length=1,
+                                required=True, label='收货地址')
+    user_name = forms.CharField(max_length=5,
+                                min_length=1,
+                                required=True, label='收货人姓名')
+    user_phone = forms.CharField(widget=forms.NumberInput(),
+                                 max_length=13,
+                                 min_length=7,
+                                 required=True, label='联系电话')
+
+
+class GoodsLyric(forms.Form):
+    goods_details = forms.CharField(widget=forms.Textarea(),
+                                    max_length=500,
+                                    min_length=10,
+                                    required=True,
+                                    label='商品描述',
+                                    )
+    goods_lyric = forms.CharField(widget=forms.Textarea(), max_length=500,
+                                  min_length=10,
+                                  required=True, label='歌词')

@@ -55,6 +55,7 @@
 							<li><a href="{% url 'sop:add_goods' %}">上架商品</a></li>
 							<li><a href="{% url 'sop:ll' %}">商品管理</a></li>
 							<li><a href="{% url 'sop:homes' %}">退出登录</a></li>
+							<li><a href="{% url 'sop:show_order' %}">我的订单</a></li>
 							<li><a href="{% url 'sop:user_xx' %}">{{user_id.user_name}}</a></li>
 						{% else %}
 							<li><a href="{% url 'sop:zc' %}">注册</a></li>
@@ -100,42 +101,19 @@
 		<div class="fullwidth">
 		  <h1 class="text-center">街上的人偶尔会模仿你小动作</h1>
 		  <p class="text-center">《那是你离开了北京的生活》</p>
-			<p> <a href="{% url 'sop:page'  pages %}" class="text-center" >上一页</a></p>
-	    	<p> <a href="{% url 'sop:next'  pages %}" class="text-center">下一页</a></p>
-			<p class="text-center">{{succeed}}</p>
+			<p> <a class="text-center" id="d2">上一页</a></p>
+	    	<p> <a class="text-center" id="d1">下一页</a></p>
+			<p class="text-center" id="succeed"></p>
 		  <hr class="break-small break-center">
 		</div>
 	  </div>
 	</div>
-
+{% load polls_filter %}
     <!-- products -->
 	<div class="line">
-		<div class="margin">
+		<div class="margin" id='dd'>
 		    <!-- product 1 -->
-			{% for i in goods %}
-			<div class="s-12 m-4 l-3 margin-bottom-30">
-				<div class="margin">
-					<div class="fullwidth">
-						<figure class="imghvr-reveal-down">
-							<img src="{% static i.goods_id %}.png" style="width: 282px; height: 270px;">
-							<figcaption>
-								<div class="product-hover-content">
-									<div class="btn-box">
-										<a href="{% url 'sop:cart' i.goods_id pages %}" class="btn">添加到购物车</a>
-									</div>
-								</div>
-							</figcaption>
-						</figure>
-					</div>
-					<div class="fullwidth">
-						<h5>{{i.goods_name}}</h5>
-						<p class="text-center"><span class="strike">$998</span> &nbsp;&nbsp; <span class="text-primary">${{i.goods_price}}</span></p>
-					</div>
-				</div>
-			</div>
-
-			{% endfor %}
-
+			{% page_next goods 1 %}
 		</div>
 	</div>
 </div>
@@ -151,8 +129,35 @@
 <script type="text/javascript" src="js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="owl-carousel/owl.carousel.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>
-   
-   
+ <script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript">
+
+$(document).ready(function(){
+  		  $("#d1").click(function(){
+  		  htmlobj=$.ajax({url:"{% url 'sop:next'  pages %}",async:false});
+  		  $("#dd").html(htmlobj.responseText);
+  		  });
+  		});
+
+$(document).ready(function(){
+		 $("#d2").click(function(){
+		 htmlobj=$.ajax({url:"{% url 'sop:page' pages %}",async:false});
+		 $("#dd").html(htmlobj.responseText);
+		 });
+
+		});
+
+{% for i in goods%}
+
+	$(document).ready(function(){
+		 $("#{{i.goods_id}}").click(function(){
+		 htmlobj=$.ajax({url:"{% url 'sop:cart' i.goods_id %}",async:false});
+		 $("#succeed").html(htmlobj.responseText);
+		 });
+
+		});
+{% endfor %}
+  </script>
    
    
 </body>

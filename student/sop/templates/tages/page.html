@@ -1,0 +1,28 @@
+{% load static %}
+{% for i in goods %}
+			<div class="s-12 m-4 l-3 margin-bottom-30" id="dd">
+				<div class="margin">	
+					<div class="fullwidth">
+						<figure class="imghvr-reveal-down">
+							<img src="{% static i.goods_img %}" style="width: 282px; height: 270px;">
+							<figcaption>
+								<div class="product-hover-content">
+									<div class="btn-box">
+										<a href="{% url 'sop:cart' i.goods_id pages %}" class="btn" id="{{i.goods_id}}">添加到购物车</a>
+										<a href="{% url 'sop:indent_s' i.goods_id %}" class="btn">购买</a> <br> <br>
+										<a href="{% url 'sop:indent' i.goods_id %}" class="btn">查看详情</a>
+									</div>
+								</div>
+							</figcaption>
+						</figure>
+					</div>
+					<div class="fullwidth">
+						<h5>{{i.goods_name}}</h5>
+						<p class="text-center"><span class="strike">$998</span> &nbsp;&nbsp; <span class="text-primary">${{i.goods_price}}</span></p>
+					</div>
+				</div>
+			</div>
+
+			{% endfor %}
+
+  

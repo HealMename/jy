@@ -139,3 +139,4 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 MEDIA_URL = '/sop/'
+

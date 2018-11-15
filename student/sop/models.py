@@ -5,9 +5,6 @@ import random
 from django.conf import settings
 
 
-class User_bill(models.Model):
-    water = models.CharField(max_length=2)
-    times = models.DateTimeField(default=timezone.now)
 
 
 class Users(models.Model):
@@ -43,6 +40,13 @@ class Goods(models.Model):
     goods_delete = models.CharField(max_length=3, default='0')
     goods_address = models.CharField(max_length=40, default='北京')
     goods_img = models.CharField(max_length=200)
+    goods_music = models.CharField(max_length=200, default='')
+
+
+class GoodsDetails(models.Model):
+    goods = models.ForeignKey(Goods, on_delete=models.CASCADE)
+    goods_details = models.CharField(max_length=500)
+    goods_lyric = models.CharField(max_length=500)
 
 
 class Update(models.Model):
@@ -58,6 +62,7 @@ class Cart(models.Model):
     goods_x = models.IntegerField()
     goods_id = models.CharField(max_length=21)
     goods_user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    goods_img = models.CharField(default='user_head/2.jpg', max_length=200)
 
 
 class Logins(models.Model):
@@ -83,6 +88,7 @@ class Order(models.Model):
     goods_address = models.CharField(max_length=40)
     user_home = models.CharField(max_length=40)
     address_time = models.DateTimeField(default=timezone.now)
+    user_phone = models.CharField(max_length=13, default='')
     yes_goods = models.CharField(max_length=10, default='未收货')
 
 
@@ -91,3 +97,9 @@ class Admins(models.Model):
     detail = models.CharField(max_length=62, default='')
     times = models.DateTimeField(default=timezone.now)
 
+
+class User_bill(models.Model):
+    water = models.CharField(max_length=2)
+    detail = models.DecimalField(max_digits=60, decimal_places=2, default=0)
+    times = models.DateTimeField(default=timezone.now)
+    user_name = models.ForeignKey(Users, on_delete=models.CASCADE)

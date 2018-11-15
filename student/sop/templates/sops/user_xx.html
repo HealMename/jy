@@ -71,6 +71,7 @@
 							<li><a href="{% url 'sop:add_goods' %}">上架商品</a></li>
 							<li><a href="{% url 'sop:ll' %}">商品管理</a></li>
 							<li><a href="{% url 'sop:homes' %}">退出登录</a></li>
+							<li><a href="{% url 'sop:show_order' %}">我的订单</a></li>
 							<li><a href="{% url 'sop:user_xx' %}">{{user_id.user_name}}</a></li>
 						{% else %}
 							<li><a href="{% url 'sop:zc' %}">注册</a></li>
@@ -162,11 +163,12 @@
 			{% if succeed %}
 			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:add_goods' %}">{{succeed}}</a></span></p>
 			{% endif%}
-
-
-			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:update_question' %}">添加密保</a></span></p>
-			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:show_login' %}">登录记录</a></span></p>
 			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:yue' %}">充值</a></span></p>
+			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:goods_record' %}">查看已购买的商品</a></span></p>
+			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:deposit' %}">提现</a></span></p>
+			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:show_login' %}">登录记录</a></span></p>
+			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:update_question' %}">修改密保</a></span></p>
+			<p class="margin-bottom text-size-16">-<span class="right"><a href="{% url 'sop:update_password' %}">修改密码</a></span></p>
 			<p class="margin-bottom text-size-16">
 			<form action="{% url 'sop:user_head' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
 			<input type="file" name="user_img">
@@ -176,7 +178,7 @@
 
 			</span></p>
 
-			<a class="button fullwidth">用户设置</a>
+			<a  href="{% url 'sop:book' %}" class="button fullwidth">查看账本</a>
 		</div>
 
 	</div>

@@ -24,16 +24,15 @@ urlpatterns = [
 
     path('update_goo/', views.update_goo, name='update_goo'),
     path('update/', views.update, name='update'),
-    path('all_goods/', views.all_goods, name='all_goods'),
     path('<page>/goods_cl/', views.goods_cl, name='goods_cl'),
     path('all_update/', views.all_update, name='all_update'),
     path('<goods_id>/state/', views.state, name='state'),
     path('<goods_id>/cancel/', views.cancel, name='cancel'),
     path('shop/', views.shop, name='shop'),
-    path('<pages>/shops/', views.shops, name='shops'),
-    path('deal/', views.deal, name='deal'),
+
+
     path('goods_record', views.goods_record, name='goods_record'),
-    path('<goods_id>/<page>/cart/', views.cart, name='cart'),
+    path('<goods_id>/cart/', views.cart, name='cart'),
     path('show_cart/', views.show_cart, name='show_cart'),
     path('close/', views.close, name='close'),
     path('<goods_id>/del_goods/', views.del_goods, name='del_goods'),
@@ -66,5 +65,11 @@ urlpatterns +=[
     path('user_head/', new_views.user_head, name='user_head'),
     path('update_question/', new_views.update_question, name='update_question'),
     path('<goods_id>/update_goods/', new_views.update_goods, name='update_goods'),
+    path('show_book/', new_views.show_book, name='book'),
+    path('<goods_id>/indent/', new_views.indent, name='indent'),
+    path('<goods_id>/indent_s/', new_views.indent_s, name='indent_s'),
+    path('deposit/', new_views.deposit, name='deposit'),
+    path('<goods_id>/goods_lyric/', new_views.goods_lyric, name='goods_lyric')
+
 
 ]
